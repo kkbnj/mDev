@@ -17,18 +17,18 @@
   <meta name="description" content="<?php echo $meta['pages'][$page]['description']; ?>" />
 
   <!-- Tile icon for Win8 (144x144 + tile color) -->
-  <meta name="msapplication-TileImage" content="/<?php echo $image_path; ?>/common/ms-touch-icon-144x144-precomposed.png" />
+  <meta name="msapplication-TileImage" content="/<?php echo $sp_image_path; ?>/common/ms-touch-icon-144x144-precomposed.png" />
   <meta name="msapplication-TileColor" content="#CCCCCC" />
 
   <!-- Add to homescreen for Chrome on Android -->
   <meta name="mobile-web-app-capable" content="yes" />
-  <link rel="icon" sizes="192x192" href="/<?php echo $image_path; ?>/common/chrome-touch-icon-192x192.png" />
+  <link rel="icon" sizes="192x192" href="/<?php echo $sp_image_path; ?>/common/chrome-touch-icon-192x192.png" />
 
   <!-- Add to homescreen for Safari on iOS 152x152 -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   <meta name="apple-mobile-web-app-title" content="<?php echo $meta['site_name']; ?>" />
-  <link rel="apple-touch-icon" href="/<?php echo $image_path; ?>/common/apple-touch-icon.png" />
+  <link rel="apple-touch-icon" href="/<?php echo $sp_image_path; ?>/common/apple-touch-icon.png" />
 
   <link href="//yui.yahooapis.com/3.18.1/build/cssreset/cssreset-min.css" rel="stylesheet" type="text/css" />
-  <link href="/<?php echo $css_path; ?>/common.css" rel="stylesheet" type="text/css" />
+  <link href="/<?php echo $sp_css_path; ?>/common.css" rel="stylesheet" type="text/css" />

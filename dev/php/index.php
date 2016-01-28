@@ -11,6 +11,7 @@ require_once PARTIAL_DIR . '/data.php';
   <link href="/<?php echo $css_path; ?>/index.css" rel="stylesheet" type="text/css" />
 </head>
 <body id="<?php echo $page; ?>">
+  <p>This is template.</p>
 
 <?php require_once PARTIAL_DIR . '/foot.php'; ?>
   <script src="/<?php echo $javascript_path; ?>/index.js" type="text/javascript" charset="UTF-8"></script>
