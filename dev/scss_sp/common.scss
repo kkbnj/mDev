@@ -1,29 +1,87 @@
 @import "compass";
+
+$sprites-spacing: 20px;
+@import "sprites/*.png";
+
+@mixin responsive-sprite($map, $icon){
+  $icon-file: sprite-file($map, $icon);
+  $icon-width: image-width($icon-file);
+  $icon-height: image-height($icon-file);
+
+  $sprite-file: sprite-path($map);
+
+  $sprite-width: image-width($sprite-file);
+  $sprite-height: image-height($sprite-file);
+
+  $space-top: floor(nth(sprite-position($map, $icon), 2));
+  @if $space-top == 0 {
+    $space-top: 0px
+  }
+
+  padding-bottom: (100% * $icon-height / $icon-width);
+
+  &:after {
+    width: percentage($sprite-width / $icon-width);
+    background-position:0 percentage(-1 * $space-top / ( $sprite-height - $icon-height ) );
+    padding-bottom: (100% * $icon-height / $icon-width);
+  }
+}
+
+$sprites-names:
+  ;
+$sprites-names-selector: '';
+$sprites-mapname: 'sprites';
+$sprites-map: $sprites-sprites;
+
+@each $name in $sprites-names {
+  $sprites-names-selector: $sprites-names-selector + '.' + $sprites-mapname + '-' + $name + ", ";
+
+  .#{$sprites-mapname}-#{$name} {
+    @include responsive-sprite($sprites-map, $name);
+  }
+}
+
+#{$sprites-names-selector} {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 0;
+
+  &:after {
+    content: ' ';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    height: 0;
+    background-image: sprite-url($sprites-map);
+    background-repeat: no-repeat;
+    background-size: 100%;
+  }
+}
+
 @charset "UTF-8";
 /*******************************
 common.scss
 *******************************/
 html, body {
   position: relative;
-  min-width: 1200px;
+  min-width: 320px;
   font-family: "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "游ゴシック", YuGothic, "メイリオ", Meiryo, sans-serif;
   font-size: 12px;
   -webkit-font-smoothing: antialiased;
 }
 
 a {
-  text-decoration: none;
-  color: #000;
+  text-decoration: inherit;
+  color: inherit;
 }
 
 img {
+  display: block;
   width: 100%;
-}
-
-.mo_op {
-  @include transition(opacity 160ms ease-in-out);
-
-  &:hover {
-    @include opacity(0.7);
-  }
 }
