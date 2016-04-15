@@ -19,19 +19,16 @@ babelのコンパイル
 var opt = {
   port: 3021,
 
-
-  pub_dir: 'publish/look/20160415/',
-  pc_style_dir: 'resource/style',
-  pc_script_dir: 'resource/script',
-  pc_image_dir: 'resource/image',
+  pub_dir: 'publish',
+  style_dir: 'resource/style',
+  script_dir: 'resource/script',
+  image_dir: 'resource/image',
   sp_style_dir: 'sp/resource/style',
   sp_script_dir: 'sp/resource/script',
   sp_image_dir: 'sp/resource/image',
 
   src_dir: 'dev',
   php_dir: 'php',
-  scss_dir: 'scss',
-  sp_scss_dir: 'scss_sp',
   babel_dir: 'babel',
   sp_babel_dir: 'babel_sp',
 
@@ -103,7 +100,7 @@ gulp.task('babel', ['reload'], function() {
     .pipe(babel({
       presets: ['es2015']
     }))
-    .pipe(gulp.dest(opt.pub_dir + '/' + opt.pc_script_dir));
+    .pipe(gulp.dest(opt.pub_dir + '/' + opt.script_dir));
 });
 
 // babel_spコンパイル

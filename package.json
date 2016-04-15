@@ -1,5 +1,5 @@
 {
-  "name": "fromNewYork",
+  "name": "project_name",
   "version": "0.0.0",
   "description": "",
   "main": "index.js",
@@ -13,7 +13,6 @@
     "browser-sync": "^2.10.1",
     "gulp": "^3.9.0",
     "gulp-babel": "^6.1.1",
-    "gulp-compass": "^2.1.0",
     "gulp-connect-php": "0.0.7",
     "gulp-load-plugins": "^1.1.0",
     "gulp-php2html": "^0.2.0",

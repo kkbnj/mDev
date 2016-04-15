@@ -1,6 +1,6 @@
 (function($) {
   $(function(){
-    //module_name module
+    // module_name module
     let module_name = (() => {
       let init = () => {
       }

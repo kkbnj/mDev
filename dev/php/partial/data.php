@@ -1,5 +1,5 @@
 <?php
-$http_host = 'http://';
+$http_host = 'http://localhost:3021';
 
 $index_path = '';
 $data_path = 'resource/data';
