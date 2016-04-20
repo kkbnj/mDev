@@ -1,5 +1,5 @@
 <?php
-$http_host = 'http://localhost:3021';
+$http_host = 'http://localhost:3087';
 
 $index_path = '';
 $data_path = 'resource/data';
@@ -21,7 +21,7 @@ $meta = array(
             'title' => '',
             'description' => '',
             'keywords' => '',
-            'image' => $http_host . '/' . $image_path . '/common/og.jpg',
+            'image' => $http_host . '/' . $image_path . '/og.jpg',
             'url' => ($index_path ? $http_host . '/' . $index_path . '/' : $http_host),
             'type' => 'article',
         ),
