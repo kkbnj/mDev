@@ -1,19 +1,18 @@
 <?php
 define('PARTIAL_DIR', './../partial');
 $page = 'index';
+$device = 'sp';
 header('Content-Type: text/html; charset=UTF-8');
 require_once PARTIAL_DIR . '/data.php';
 ?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<?php require_once PARTIAL_DIR . '/head_sp.php'; ?>
-  <link href="/<?php echo $sp_css_path; ?>/index.css" rel="stylesheet" type="text/css" />
+<?php require_once PARTIAL_DIR . '/head.php'; ?>
 </head>
-<body id="<?php echo $page; ?>">
+<body>
   <p>This is sp template.</p>
 
-<?php require_once PARTIAL_DIR . '/foot_sp.php'; ?>
-  <script src="/<?php echo $sp_javascript_path; ?>/index.js" type="text/javascript" charset="UTF-8"></script>
+<?php require_once PARTIAL_DIR . '/foot.php'; ?>
 </body>
 </html>

@@ -7,40 +7,39 @@
 
 // 環境変数の設定
 var opt = {
-  port: 3087,
+  port: 3010,
+  // publish_mode: 'php',
   publish_mode: 'html',
   // charset: 'Shift_JIS',
   charset: 'UTF-8',
 
   php_files: [
+    // ['pc/**/*.php', ''],
+    // ['partial/**/*.php', ''],
+    // ['sp/**/*.php', 'sp'],
+
     // ['sp/index.php', 'sp/index.html'],
     ['pc/index.php', 'index.html'],
   ],
 
   image_files: [
     // ['sp/*', 'sp/resource/image'],
-    // ['sp/sprites/*', 'sp/resource/image/sprites'],
     ['pc/*', 'resource/image'],
-    ['pc/sprites/*', 'resource/image/sprites'],
   ],
 
   scss_files: [
-    // ['sp/*.scss', 'sp/resource/style', 'sp/resource/image'],
-    // ['sp/base.scss', 'sp/resource/style/base.css', 'sp/resource/image'],
-    // ['pc/*.scss', 'resource/style', 'resource/image'],
-    ['pc/base.scss', 'resource/style/base.css', 'resource/image'],
+    // ['sp/index.scss', 'sp/resource/style/index.css', 'sp/resource/image'],
+    ['pc/index.scss', 'resource/style/index.css', 'resource/image'],
   ],
 
   babel_files: [
-    // ['sp/*.js', 'sp/resource/script'],
-    // ['sp/base.js', 'sp/resource/script/base.js'],
-    // ['pc/*.js', 'resource/script'],
-    ['pc/base.js', 'resource/script/base.js'],
+    // ['sp/index.js', 'sp/resource/script/index.js'],
+    ['pc/index.js', 'resource/script/index.js'],
   ],
 
   vender_files: [
-    // ['sp/vender.js', 'sp/resource/script/vender.js'],
-    ['pc/vender.js', 'resource/script/vender.js'],
+    // ['vender.js', 'sp/resource/script/vender.js'],
+    ['vender.js', 'resource/script/vender.js'],
   ],
 };
 
@@ -75,7 +74,8 @@ gulp.task('server', function() {
   }, function() {
     browserSync({
       proxy: 'localhost:' + opt.port,
-      port: opt.port + 1
+      port: opt.port + 1,
+      notify: false
     });
   });
 });
@@ -83,7 +83,7 @@ gulp.task('server', function() {
 // 変更の監視
 gulp.task('watch', function() {
   watch('dev/php/**/*.php', function() {
-    gulp.start(['php2html']);
+    gulp.start(['php']);
   });
 
   watch('dev/image/**/*', function() {
@@ -104,7 +104,7 @@ gulp.task('watch', function() {
 });
 
 // ビルドコンパイル
-gulp.task('build', ['php2html', 'imageOpt', 'compass', 'babel', 'vender']);
+gulp.task('build', ['php', 'imageOpt', 'compass', 'babel', 'vender']);
 
 // gulpコマンド
 gulp.task('default', ['build', 'server', 'watch', 'replace']);
@@ -156,6 +156,22 @@ gulp.task('php2html', function() {
   compile('php', opt.php_files, php2html, function() {
     return encoding({to: opt.charset});
   });
+});
+
+// php move
+gulp.task('php_move', function() {
+  compile('php', opt.php_files, through2.obj, through2.obj);
+});
+
+gulp.task('php', function() {
+  switch(opt.publish_mode) {
+    case 'html':
+      gulp.start('php2html');
+      break;
+    case 'php':
+      gulp.start('php_move');
+      break;
+  }
 });
 
 // 画像圧縮
