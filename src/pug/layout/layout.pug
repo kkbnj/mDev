@@ -1,0 +1,27 @@
+include /data/data
+include /mixin/mixin
+block data
+
+html(lang='ja')
+  head
+    include /layout/head
+
+
+  body
+    //- タグマネージャー
+    //- +gtm('GTM-T588Z5')
+
+
+    //- ページコンテンツ
+    .wrapper
+      //- include ../includes/header
+
+      block content
+
+      //- include ../includes/footer
+
+
+    //- JavaScript
+    script(src=JS_DIR + 'libs.js' type='text/javascript' charset='UTF-8')
+    //- script(src=JS_DIR + 'common.js' type='text/javascript' charset='UTF-8')
+    block script

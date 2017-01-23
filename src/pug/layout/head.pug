@@ -1,0 +1,39 @@
+//- 固定設定
+meta(http-equiv='content-language' content='ja')
+meta(http-equiv='content-type' content='text/html; charset=UTF-8')
+meta(http-equiv='content-style-type' content='text/css; charset=UTF-8')
+meta(http-equiv='content-script-type' content='text/javascript; charset=UTF-8')
+meta(name='robots' content='index,follow,noodp')
+meta(name='viewport' content='width=device-width')
+
+//- ページ情報
+if app_id
+  meta(property='og:app_id' content=app_id)
+if site_name
+  meta(property='og:site_name' content=site_name)
+
+if page.page_type
+  meta(property='og:type' content=page.page_type)
+if page.description
+  meta(property='og:description' content=page.description)
+if page.title
+  meta(property='og:title' content=page.title)
+if page.og_image
+  meta(property='og:image' content=HOST_NAME + IMAGE_DIR + page.og_image)
+meta(property='og:url' content=page.canonical)
+
+meta(name='description' content=page.description)
+if page.keywords
+  meta(name='keywords' content=page.keywords)
+title= page.title
+
+link(rel='canonical' href=page.canonical)
+
+
+//- StyleSheet
+//- link(href=CSS_DIR + 'common.css' rel='stylesheet' type='text/css')
+block css
+
+
+//- アナリティクスコード
+//- +ga('UA-89443373-1')
