@@ -1,183 +1,243 @@
-// 未実装（実装予定）の機能
-// 差分releaseファイル生成
-// バージョン違いの管理
-// アナリティクス設定
-// dataのjson化
-// 処理の同期化
+const path = require('path')
 
-// 環境変数の設定
-var opt = {
-  port: 3010,
-  // publish_mode: 'php',
-  publish_mode: 'html',
-  // charset: 'Shift_JIS',
-  charset: 'UTF-8',
+const PORT = 3001,
 
-  php_files: [
-    // ['pc/**/*.php', ''],
-    // ['partial/**/*.php', ''],
-    // ['sp/**/*.php', 'sp'],
+      // 文字コード
+      HTML_CHARSET = 'utf-8',
+      SP = false,
 
-    // ['sp/index.php', 'sp/index.html'],
-    ['pc/index.php', 'index.html'],
-  ],
+      // URL
+      PROTOCOL = 'http',
+      SERVER_NAME = 'maam.me',
+      HOST_NAME = PROTOCOL + '://' + SERVER_NAME,
 
-  image_files: [
-    // ['sp/*', 'sp/resource/image'],
-    ['pc/*', 'resource/image'],
-  ],
+      // 公開用ディレクトリ
+      PUBLIC_DIR = 'public',
+      // RELATIVE_PATH = false, //未実装
+      INDEX_DIR = '',
+      SP_INDEX_DIR = path.join(INDEX_DIR, 'sp'),
+      CANONICAL_ROOT = HOST_NAME + (INDEX_DIR ? '/' + INDEX_DIR + '/' : ''),
 
-  scss_files: [
-    // ['sp/index.scss', 'sp/resource/style/index.css', 'sp/resource/image'],
-    ['pc/index.scss', 'resource/style/index.css', 'resource/image'],
-  ],
+      // アセットディレクトリ
+      ASSETS_DIR = path.join(INDEX_DIR, 'assets'),
+      CSS_DIR = path.join(ASSETS_DIR, 'css'),
+      JS_DIR = path.join(ASSETS_DIR, 'js'),
+      IMAGE_DIR = path.join(ASSETS_DIR, 'images'),
 
-  babel_files: [
-    // ['sp/index.js', 'sp/resource/script/index.js'],
-    ['pc/index.js', 'resource/script/index.js'],
-  ],
+      // SPアセットディレクトリ
+      SP_ASSETS_DIR = path.join(SP_INDEX_DIR, 'assets'),
+      SP_CSS_DIR = path.join(SP_ASSETS_DIR, 'css'),
+      SP_JS_DIR = path.join(SP_ASSETS_DIR, 'js'),
+      SP_IMAGE_DIR = path.join(SP_ASSETS_DIR, 'images'),
 
-  vender_files: [
-    // ['vender.js', 'sp/resource/script/vender.js'],
-    ['vender.js', 'resource/script/vender.js'],
-  ],
-};
+      // pugオプション
+      PUG_OPTION = {
+        doctype: 'html',
+        pretty: false,
+      },
+
+      // stylusSオプション
+      STYLUS_OPTION = {
+        prefix: 'MM-',
+        compress: true,
+      },
+
+      // 開発用ディレクトリ
+      SRC_DIR = 'src',
+      PUG_DIR = 'pug',
+      STYLUS_DIR = 'stylus',
+      BABEL_DIR = 'babel',
+
+      // PATHオブジェクト
+      COMMON_PARAMS = {
+        PROTOCOL: PROTOCOL,
+        SERVER_NAME: SERVER_NAME,
+        HOST_NAME: HOST_NAME,
+        CANONICAL_ROOT: CANONICAL_ROOT,
+      };
 
 
-
-// 以下、内部処理
 // モジュール読み込み
-var path = require('path'),
-    browserSync = require('browser-sync'),
-    gulp = require('gulp'),
-    babel = require('gulp-babel'),
-    compass = require('gulp-compass'),
-    connect = require('gulp-connect-php'),
-    encoding = require('gulp-convert-encoding'),
-    gulpif = require('gulp-if'),
-    imagemin = require('gulp-imagemin'),
-    minifyCSS = require('gulp-minify-css'),
-    php2html = require('gulp-php2html'),
-    plumber = require('gulp-plumber'),
-    rename = require('gulp-rename'),
-    replace = require('gulp-replace'),
-    uglify = require('gulp-uglify'),
-    watch = require('gulp-watch'),
-    pngquant = require('imagemin-pngquant'),
-    through2 = require('through2');
+const gulp = require('gulp'),
+      pug = require('gulp-pug'),
+      encoding = require('gulp-convert-encoding'),
+      stylus = require('gulp-stylus'),
+      nib = require('nib'),
+      webpack = require('webpack-stream'),
+      named = require('vinyl-named'),
+      watch = require('gulp-watch'),
+      plumber = require('gulp-plumber'),
+      browserSync = require('browser-sync'),
+      connectPhp = require('gulp-connect-php'),
+      imagemin = require('gulp-imagemin'),
+      pngquant = require('imagemin-pngquant');
 
-// ローカルサーバー構築
-gulp.task('server', function() {
-  connect.server({
-    base: 'publish',
-    port: opt.port
-  }, function() {
-    browserSync({
-      proxy: 'localhost:' + opt.port,
-      port: opt.port + 1,
-      notify: false
-    });
-  });
-});
+// default
+gulp.task('default', ['server', 'pug', 'stylus', 'watch', 'webpack'])
 
-// 変更の監視
-gulp.task('watch', function() {
-  watch('dev/php/**/*.php', function() {
-    gulp.start(['php']);
-  });
 
-  watch('dev/image/**/*', function() {
-    gulp.start(['imageOpt']);
-  });
+// pug
+gulp.task('pug', () => {
+  const default_options = Object.assign({
+    basedir: path.join(SRC_DIR, PUG_DIR),
+    doctype: 'html',
+    pretty: true,
+  }, PUG_OPTION)
 
-  watch('dev/scss/**/*.scss', function() {
-    gulp.start(['compass']);
-  });
+  // pc
+  gulp
+    .src(path.join(SRC_DIR, PUG_DIR, 'pc', '**', '*.pug'))
+    .pipe(plumber())
+    .pipe(pug(Object.assign({}, default_options, {
+      locals: Object.assign({}, COMMON_PARAMS, {
+        INDEX_DIR: '/' + INDEX_DIR + (INDEX_DIR ? '/' : ''),
+        ASSETS_DIR: '/' + ASSETS_DIR + (ASSETS_DIR ? '/' : ''),
+        CSS_DIR: '/' + CSS_DIR + (CSS_DIR ? '/' : ''),
+        JS_DIR: '/' + JS_DIR + (JS_DIR ? '/' : ''),
+        IMAGE_DIR: '/' + IMAGE_DIR + (IMAGE_DIR ? '/' : ''),
 
-  watch('dev/babel/**/*.js', function() {
-    gulp.start(['babel']);
-  });
+        // for RELATIVE_PATH
+        // INDEX_DIR: (RELATIVE_PATH ? '' : '/') + INDEX_DIR + (INDEX_DIR ? '/' : ''),
+        // ASSETS_DIR: (RELATIVE_PATH ? '' : '/') + ASSETS_DIR + (ASSETS_DIR ? '/' : ''),
+        // CSS_DIR: (RELATIVE_PATH ? '' : '/') + CSS_DIR + (CSS_DIR ? '/' : ''),
+        // JS_DIR: (RELATIVE_PATH ? '' : '/') + JS_DIR + (JS_DIR ? '/' : ''),
+        // IMAGE_DIR: (RELATIVE_PATH ? '' : '/') + IMAGE_DIR + (IMAGE_DIR ? '/': ''),
+      }),
+    })))
+    .pipe(encoding({to: HTML_CHARSET}))
+    .pipe(gulp.dest(path.join(PUBLIC_DIR, INDEX_DIR)))
 
-  watch('dev/vender/**/*', function() {
-    gulp.start(['vender']);
-  });
-});
-
-// ビルドコンパイル
-gulp.task('build', ['php', 'imageOpt', 'compass', 'babel', 'vender']);
-
-// gulpコマンド
-gulp.task('default', ['build', 'server', 'watch', 'replace']);
-
-// 設定書き換え
-gulp.task('replace', function() {
-  return gulp.src('dev/php/partial/head.php')
-    .pipe(replace(
-      /\"text\/html; charset=([-_a-z0-9]*)\"/i,
-      '"text/html; charset=' + opt.charset + '"'
-    ))
-    .pipe(gulp.dest('dev/php/partial'));
-});
-
-// 共通処理関数
-function compile(type, files, process1, process2) {
-  var i,
-      len = files.length,
-      finished = 0;
-
-  for(i = 0; i < len; i++) {
+  if(SP) {
     gulp
-      .src(path.join('dev', type, files[i][0]))
+      .src(path.join(SRC_DIR, PUG_DIR, 'sp', '**', '*.pug'))
       .pipe(plumber())
-      .pipe(process1(files[i]))
-      .pipe(process2(files[i]))
-      .pipe(
-        gulpif(
-          (files[i][1].indexOf('.') >= 0),
-          rename(files[i][1]),
-          rename({
-            dirname: files[i][1]
-          })
-        )
-      )
-      .pipe(gulp.dest('publish'))
-      .on('end', function() {
-        finished++;
+      .pipe(pug(Object.assign({}, default_options, {
+        locals: Object.assign({}, COMMON_PARAMS, {
+          INDEX_DIR: '/' + SP_INDEX_DIR + (SP_INDEX_DIR ? '/' : ''),
+          ASSETS_DIR: '/' + SP_ASSETS_DIR + (SP_ASSETS_DIR ? '/' : ''),
+          CSS_DIR: '/' + SP_CSS_DIR + (SP_CSS_DIR ? '/' : ''),
+          JS_DIR: '/' + SP_JS_DIR + (SP_JS_DIR ? '/' : ''),
+          IMAGE_DIR: '/' + SP_IMAGE_DIR + (SP_IMAGE_DIR ? '/' : ''),
 
-        if(finished >= len) {
-          browserSync.reload();
+          // for RELATIVE_PATH
+          // INDEX_DIR: (RELATIVE_PATH ? '' : '/') + SP_INDEX_DIR + (SP_INDEX_DIR ? '/' : ''),
+          // ASSETS_DIR: (RELATIVE_PATH ? '' : '/') + SP_ASSETS_DIR + (SP_ASSETS_DIR ? '/' : ''),
+          // CSS_DIR: (RELATIVE_PATH ? '' : '/') + SP_CSS_DIR + (SP_CSS_DIR ? '/' : ''),
+          // JS_DIR: (RELATIVE_PATH ? '' : '/') + SP_JS_DIR + (SP_JS_DIR ? '/' : ''),
+          // IMAGE_DIR: (RELATIVE_PATH ? '' : '/') + SP_IMAGE_DIR + (SP_IMAGE_DIR ? '/' : ''),
+        }),
+      })))
+      .pipe(encoding({to: HTML_CHARSET}))
+      .pipe(gulp.dest(path.join(PUBLIC_DIR, SP_INDEX_DIR)))
+  }
+})
+
+
+// stylus
+gulp.task('stylus', () => {
+  const default_options = Object.assign({
+    'include css': true,
+    import: ['nib'],
+    use: [
+      nib(),
+    ],
+  }, STYLUS_OPTION)
+
+  gulp
+    .src(path.join(SRC_DIR, STYLUS_DIR, 'pc', '*.styl'))
+    .pipe(plumber())
+    .pipe(stylus(Object.assign({}, default_options, {
+      rawDefine: Object.assign({}, COMMON_PARAMS, {
+        INDEX_DIR: '/' + INDEX_DIR + (INDEX_DIR ? '/' : ''),
+        ASSETS_DIR: '/' + ASSETS_DIR + (ASSETS_DIR ? '/' : ''),
+        CSS_DIR: '/' + CSS_DIR + (CSS_DIR ? '/' : ''),
+        JS_DIR: '/' + JS_DIR + (JS_DIR ? '/' : ''),
+        IMAGE_DIR: '/' + IMAGE_DIR + (IMAGE_DIR ? '/' : ''),
+
+        // for RELATIVE_PATH
+        // INDEX_DIR: (RELATIVE_PATH ? path.relative(CSS_DIR, INDEX_DIR) + (path.relative(CSS_DIR, INDEX_DIR) ? '/' : '') : '/' + INDEX_DIR + (INDEX_DIR ? '/' : '')),
+        // ASSETS_DIR: (RELATIVE_PATH ? path.relative(CSS_DIR, ASSETS_DIR) + (path.relative(CSS_DIR, ASSETS_DIR) ? '/' : '') : '/' + ASSETS_DIR + (ASSETS_DIR ? '/' : '')),
+        // CSS_DIR: (RELATIVE_PATH ? path.relative(CSS_DIR, CSS_DIR) + (path.relative(CSS_DIR, CSS_DIR) ? '/' : '') : '/' + CSS_DIR + (CSS_DIR ? '/' : '')),
+        // JS_DIR: (RELATIVE_PATH ? path.relative(CSS_DIR, JS_DIR) + (path.relative(CSS_DIR, JS_DIR) ? '/' : '') : '/' + JS_DIR + (JS_DIR ? '/' : '')),
+        // IMAGE_DIR: (RELATIVE_PATH ? path.relative(CSS_DIR, IMAGE_DIR) + (path.relative(CSS_DIR, IMAGE_DIR) ? '/' : '') : '/' + IMAGE_DIR + (IMAGE_DIR ? '/' : '')),
+      }),
+    })))
+    .pipe(gulp.dest(path.join(PUBLIC_DIR, CSS_DIR)))
+
+  if(SP) {
+    gulp
+      .src(path.join(SRC_DIR, STYLUS_DIR, 'sp', '*.styl'))
+      .pipe(plumber())
+      .pipe(stylus(Object.assign({}, default_options, {
+        rawDefine: Object.assign({}, COMMON_PARAMS, {
+          INDEX_DIR: '/' + SP_INDEX_DIR + (SP_INDEX_DIR ? '/' : ''),
+          ASSETS_DIR: '/' + SP_ASSETS_DIR + (SP_ASSETS_DIR ? '/' : ''),
+          CSS_DIR: '/' + SP_CSS_DIR + (SP_CSS_DIR ? '/' : ''),
+          JS_DIR: '/' + SP_JS_DIR + (SP_JS_DIR ? '/' : ''),
+          IMAGE_DIR: '/' + SP_IMAGE_DIR + (SP_IMAGE_DIR ? '/' : ''),
+
+          // for RELATIVE_PATH
+          // INDEX_DIR: (RELATIVE_PATH ? path.relative(SP_CSS_DIR, SP_INDEX_DIR) + (path.relative(SP_CSS_DIR, SP_INDEX_DIR) ? '/' : '') : '/' + SP_INDEX_DIR + (SP_INDEX_DIR ? '/' : '')),
+          // ASSETS_DIR: (RELATIVE_PATH ? path.relative(SP_CSS_DIR, SP_ASSETS_DIR) + (path.relative(SP_CSS_DIR, SP_ASSETS_DIR) ? '/' : '') : '/' + SP_ASSETS_DIR + (SP_ASSETS_DIR ? '/' : '')),
+          // CSS_DIR: (RELATIVE_PATH ? path.relative(SP_CSS_DIR, SP_CSS_DIR) + (path.relative(SP_CSS_DIR, SP_CSS_DIR) ? '/' : '') : '/' + SP_CSS_DIR + (SP_CSS_DIR ? '/' : '')),
+          // JS_DIR: (RELATIVE_PATH ? path.relative(SP_CSS_DIR, SP_JS_DIR) + (path.relative(SP_CSS_DIR, SP_JS_DIR) ? '/' : '') : '/' + SP_JS_DIR + (SP_JS_DIR ? '/' : '')),
+          // IMAGE_DIR: (RELATIVE_PATH ? path.relative(SP_CSS_DIR, SP_IMAGE_DIR) + (path.relative(SP_CSS_DIR, SP_IMAGE_DIR) ? '/' : '') : '/' + SP_IMAGE_DIR + (SP_IMAGE_DIR ? '/' : '')),
+        }),
+      })))
+      .pipe(gulp.dest(path.join(PUBLIC_DIR, SP_CSS_DIR)))
+  }
+})
+
+
+// webpack
+gulp.task('webpack', () => {
+  const options = {
+    watch: true,
+    module: {
+      loaders: [
+        {
+          test: /\.js$/,
+          loader: 'babel',
+          query: {
+            presets: ['es2015']
+          }
         }
-      });
+      ]
+    },
+    resolve: {
+      extensions: ['', '.js', '.json']
+    },
+    plugins: [
+      new webpack.webpack.optimize.UglifyJsPlugin()
+    ],
+  };
+
+  gulp
+    .src(path.join(SRC_DIR, BABEL_DIR, 'pc', '*.js'))
+    .pipe(plumber())
+    .pipe(named())
+    .pipe(webpack(options))
+    .pipe(gulp.dest(path.join(PUBLIC_DIR, JS_DIR)))
+
+  if(SP) {
+    gulp
+      .src(path.join(SRC_DIR, BABEL_DIR, 'pc', '*.js'))
+      .pipe(plumber())
+      .pipe(named())
+      .pipe(webpack(options))
+      .pipe(gulp.dest(path.join(PUBLIC_DIR, SP_JS_DIR)))
   }
-}
-
-// phpコンパイル
-gulp.task('php2html', function() {
-  compile('php', opt.php_files, php2html, function() {
-    return encoding({to: opt.charset});
-  });
 });
 
-// php move
-gulp.task('php_move', function() {
-  compile('php', opt.php_files, through2.obj, through2.obj);
-});
 
-gulp.task('php', function() {
-  switch(opt.publish_mode) {
-    case 'html':
-      gulp.start('php2html');
-      break;
-    case 'php':
-      gulp.start('php_move');
-      break;
-  }
-});
-
-// 画像圧縮
-gulp.task('imageOpt', function() {
-  compile('image', opt.image_files, function() {
-    return imagemin({
+// imagemin
+gulp.task('imagemin', () => {
+  gulp
+    .src([
+      path.join(SRC_DIR, IMAGE_DIR, '**', '*'),
+      path.join(SRC_DIR, SP_IMAGE_DIR, '**', '*'),
+    ])
+    .pipe(imagemin({
       progressive: true,
       use: [
         pngquant({
@@ -185,38 +245,42 @@ gulp.task('imageOpt', function() {
           speed: 1
         })
       ]
+    }))
+})
+
+
+// watch
+gulp.task('watch', () => {
+  // pug
+  watch(path.join(SRC_DIR, PUG_DIR, '**', '*'), () => {
+    gulp.start(['pug'])
+  })
+
+  // stylus
+  watch(path.join(SRC_DIR, STYLUS_DIR, '**', '*'), () => {
+    gulp.start(['stylus'])
+  })
+
+  // imagemin
+  watch(path.join(SRC_DIR, IMAGE_DIR, '**', '*'), () => {
+    gulp.start(['imagemin']);
+  })
+})
+
+
+// server
+gulp.task('server', () => {
+  connectPhp.server({
+    base: PUBLIC_DIR,
+    port: PORT,
+  }, () => {
+    browserSync({
+      files: path.join(PUBLIC_DIR, '**', '*'),
+      proxy: 'localhost:' + PORT,
+      port: PORT,
+      logLevel: 'silent',
+      notify: false,
+      startPath: INDEX_DIR,
     })
-  }, through2.obj);
-});
-
-// compassコンパイル
-gulp.task('compass', function() {
-  compile('scss', opt.scss_files, function(file_info) {
-    var css_dir = file_info[1];
-
-    if(file_info[1].indexOf('.') >= 0) {
-      css_dir = file_info[1].substring(0, file_info[1].lastIndexOf('/'));
-    }
-
-    return compass({
-      comments: false,
-      sass: path.join('dev/scss', file_info[0].substring(0, file_info[0].lastIndexOf('/'))),
-      css: path.join('publish', css_dir),
-      image: path.join('publish', file_info[2])
-    });
-  }, minifyCSS);
-});
-
-// babelコンパイル
-gulp.task('babel', function() {
-  compile('babel', opt.babel_files, function() {
-    return babel({
-      presets: ['es2015']
-    });
-  }, uglify);
-});
-
-// venderファイル移動
-gulp.task('vender', function() {
-  compile('vender', opt.vender_files, through2.obj, through2.obj);
-});
+  })
+})
