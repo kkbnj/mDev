@@ -1,11 +1,11 @@
 /*!
- * jQuery mRender v1.0.3
- * Copyright 2016 maam.inc
+ * jQuery mRender v1.0.4
+ * Copyright 2016-2017 maam.inc
  * Contributing Author: Hiroki Homma
  * Require for jQuery v1.7 or above
  */
 (function($) {
-  mRender = (function() {
+  $.mRender = (function() {
     var fps = 60,
         params = {
           scr: 0,
