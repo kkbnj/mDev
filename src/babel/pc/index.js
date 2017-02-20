@@ -10,6 +10,5 @@ $(() => {
       easing: 'easeInOutExpo',
     })
 
-    // $('.kerning').kerning()
   })()
 })

@@ -28,6 +28,7 @@
     "jquery": "^3.1.1",
     "jquery.easing": "^1.4.1",
     "nib": "^1.1.2",
+    "scroll-restoration-polyfill": "^0.6.1",
     "velocity-animate": "^1.4.0",
     "vinyl-named": "^1.1.0",
     "webpack-stream": "^3.2.0"
