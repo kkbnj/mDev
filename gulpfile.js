@@ -221,7 +221,7 @@ gulp.task('webpack', () => {
 
   if(SP) {
     gulp
-      .src(path.join(SRC_DIR, BABEL_DIR, 'pc', '*.js'))
+      .src(path.join(SRC_DIR, BABEL_DIR, 'sp', '*.js'))
       .pipe(plumber())
       .pipe(named())
       .pipe(webpack(options))
