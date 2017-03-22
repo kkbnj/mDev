@@ -6,7 +6,16 @@ html, body
   font-family "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "游ゴシック", YuGothic, "メイリオ", Meiryo, sans-serif
   font-size 10px
   line-height 1
-  -webkit-font-smoothing antialiased
+
+  for i in 11..20
+    @media screen and (min-width: (32*i)px)
+      font-size (i)px
+
+  @media screen and (min-width: 375px)
+    font-size 11.71875px
+
+  @media screen and (min-width: 414px)
+    font-size 12.9375px
 
 a
   text-decoration inherit
