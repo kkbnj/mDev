@@ -16,3 +16,5 @@ require('../libs/jquery.mScroll.js')
 // require('../libs/jquery.mFadeIn.js')
 // require('../libs/jquery.mRender.js')
 // require('../libs/jquery.flexslider.js')
+
+// require('../libs/mDate.js')
