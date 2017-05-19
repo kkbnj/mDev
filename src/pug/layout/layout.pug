@@ -1,6 +1,6 @@
-include /data/data
+include /data/common
 include /mixin/mixin
-block data
+block common_data
 
 html(lang='ja')
   head
@@ -9,19 +9,12 @@ html(lang='ja')
 
   body
     //- タグマネージャー
-    //- +gtm('GTM-T588Z5')
-
+    if gtm_id
+      +gtm(gtm_id)
 
     //- ページコンテンツ
-    .wrapper
-      //- include /includes/header
-
-      block content
-
-      //- include /includes/footer
-
+    block common_content
 
     //- JavaScript
     script(src=JS_DIR + 'libs.js' type='text/javascript' charset='UTF-8')
-    //- script(src=JS_DIR + 'common.js' type='text/javascript' charset='UTF-8')
-    block script
+    block common_script

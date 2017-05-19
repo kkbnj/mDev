@@ -42,28 +42,29 @@ if app_id
 if site_name
   meta(property='og:site_name' content=site_name)
 
-if page.page_type
-  meta(property='og:type' content=page.page_type)
-if page.description
-  meta(property='og:description' content=page.description)
-if page.title
-  meta(property='og:title' content=page.title)
-if page.og_image
-  meta(property='og:image' content=HOST_NAME + IMAGE_DIR + page.og_image+'?'+now.getFullTimes())
-meta(property='og:url' content=page.canonical)
+if page
+  if page.page_type
+    meta(property='og:type' content=page.page_type)
+  if page.description
+    meta(property='og:description' content=page.description)
+  if page.title
+    meta(property='og:title' content=page.title)
+  if page.og_image
+    meta(property='og:image' content=HOST_NAME + IMAGE_DIR + page.og_image+'?'+now.getFullTimes())
+  meta(property='og:url' content=page.canonical)
 
-meta(name='description' content=page.description)
-if page.keywords
-  meta(name='keywords' content=page.keywords)
-title= page.title
+  meta(name='description' content=page.description)
+  if page.keywords
+    meta(name='keywords' content=page.keywords)
+  title= page.title
 
-link(rel='canonical' href=page.canonical)
+  link(rel='canonical' href=page.canonical)
 
 
 //- StyleSheet
-//- link(href=CSS_DIR + 'common.css' rel='stylesheet' type='text/css')
-block css
+block common_css
 
 
 //- アナリティクスコード
-//- +ga('UA-89443373-1')
+if ga_id
+  +ga(ga_id)
