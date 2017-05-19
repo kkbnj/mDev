@@ -86,7 +86,7 @@ gulp.task('pug', () => {
 
   // pc
   gulp
-    .src(path.join(SRC_DIR, PUG_DIR, 'pc', '**', '*.pug'))
+    .src(path.join(SRC_DIR, PUG_DIR, 'pc/dir', '**', '*.pug'))
     .pipe(plumber())
     .pipe(pug(Object.assign({}, default_options, {
       locals: Object.assign({}, COMMON_PARAMS, {
@@ -109,7 +109,7 @@ gulp.task('pug', () => {
 
   if(SP) {
     gulp
-      .src(path.join(SRC_DIR, PUG_DIR, 'sp', '**', '*.pug'))
+      .src(path.join(SRC_DIR, PUG_DIR, 'sp/dir', '**', '*.pug'))
       .pipe(plumber())
       .pipe(pug(Object.assign({}, default_options, {
         locals: Object.assign({}, COMMON_PARAMS, {
@@ -144,7 +144,7 @@ gulp.task('stylus', () => {
   }, STYLUS_OPTION)
 
   gulp
-    .src(path.join(SRC_DIR, STYLUS_DIR, 'pc', '*.styl'))
+    .src(path.join(SRC_DIR, STYLUS_DIR, 'pc/dir', '*.styl'))
     .pipe(plumber())
     .pipe(stylus(Object.assign({}, default_options, {
       rawDefine: Object.assign({}, COMMON_PARAMS, {
@@ -166,7 +166,7 @@ gulp.task('stylus', () => {
 
   if(SP) {
     gulp
-      .src(path.join(SRC_DIR, STYLUS_DIR, 'sp', '*.styl'))
+      .src(path.join(SRC_DIR, STYLUS_DIR, 'sp/dir', '*.styl'))
       .pipe(plumber())
       .pipe(stylus(Object.assign({}, default_options, {
         rawDefine: Object.assign({}, COMMON_PARAMS, {
@@ -213,7 +213,7 @@ gulp.task('webpack', () => {
   };
 
   gulp
-    .src(path.join(SRC_DIR, BABEL_DIR, 'pc', '*.js'))
+    .src(path.join(SRC_DIR, BABEL_DIR, 'pc/dir', '*.js'))
     .pipe(plumber())
     .pipe(named())
     .pipe(webpack(options))
@@ -221,7 +221,7 @@ gulp.task('webpack', () => {
 
   if(SP) {
     gulp
-      .src(path.join(SRC_DIR, BABEL_DIR, 'sp', '*.js'))
+      .src(path.join(SRC_DIR, BABEL_DIR, 'sp/dir', '*.js'))
       .pipe(plumber())
       .pipe(named())
       .pipe(webpack(options))
