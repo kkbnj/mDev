@@ -1,3 +1,8 @@
+/*!
+ * mDate 1.0
+ * Copyright 2017 maam.inc
+ * Contributing Author: Hiroki Homma
+ */
 class MDate extends Date {
   constructor(...args) {
     super(...args)

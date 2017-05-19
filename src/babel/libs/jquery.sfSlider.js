@@ -1,4 +1,4 @@
-/**
+/*!
 jquery.sfSlider.js
 
 Copyright (c) 2016 SFcoding daisuke norimatsu
@@ -7,7 +7,7 @@ This software is released under the MIT License.
 http://opensource.org/licenses/mit-license.php
 */
 
-/*html------------------------------------- 
+/*html-------------------------------------
 <div class="slide">
 	<div class="mask">
 		<div class="slider">
@@ -24,7 +24,7 @@ http://opensource.org/licenses/mit-license.php
 </div>
 -------------------------------------*/
 
-/*js------------------------------------- 
+/*js-------------------------------------
 $(".slide").sfSlider({
 	evtNameSpace: 'イベントネーム' || 'sfSlider',
 	maskClass: ’マスク要素のクラス’ || 'mask',
@@ -54,8 +54,8 @@ $(".slide").sfSlider({
 	currentItemCenter: 'カレントアイテムをセンターにするか' || false
 });
 -------------------------------------*/
-	
-/*例------------------------------------- 
+
+/*例-------------------------------------
 $(function () {
 	$(".slide").sfSlider({
 		pieceOfItemNum: 5,
@@ -97,8 +97,8 @@ $(function () {
 		}
 	});
 	var sliderObj = $.data($(".slide").get(0),'sfSlider').sfSlider;
-	
-	
+
+
 	$('.changeBtn1').click(function(){
 		sliderObj.stateChange({
 			pieceOfItemNum : 1,
@@ -117,7 +117,7 @@ $(function () {
 			slidePieceNum: 3
 		});
 	});
-	
+
 	$('.moveBtn1').click(function(){
 		sliderObj.instantPosNum(0);
 	});
@@ -133,8 +133,8 @@ $(function () {
 	$('.moveBtn5').click(function(){
 		sliderObj.instantPosNum(4);
 	});
-	
-	
+
+
 	$('.aniBtn1').click(function(){
 		sliderObj.slideMoveItemNum(0);
 	});
@@ -150,11 +150,11 @@ $(function () {
 	$('.aniBtn5').click(function(){
 		sliderObj.slideMoveItemNum(4);
 	});
-	
+
 	$('.originalHtml').click(function(){
 		sliderObj.backOriginal();
 	});
-	
+
 });
 
 -------------------------------------*/
@@ -286,7 +286,7 @@ $(function () {
 						evtMoveStr = 'mousemove.' + _evtNameSpace;
 						evtEndStr = 'mouseup.' + _evtNameSpace;
 						evtCancelStr = 'mouseout.' + _evtNameSpace;
-						
+
 						_$slider.find("*").css({
 							"user-select": "none",
 							"-webkit-user-select": "none",
@@ -373,7 +373,7 @@ $(function () {
 					}
 					_panelNum += 1;
 					if (_hasPager) {
-						
+
 						if (_slideNum !== maxSlideNum) {
 							_slideNum += _slidePieceNum;
 							if (_slideNum > maxSlideNum) {
@@ -431,12 +431,12 @@ $(function () {
 					var dY = (__touchDevice) ? event.changedTouches[0].pageY : e.pageY;
 					_flickXMove = _touchX - dX;
 					_flickYMove = _touchY - dY;
-					
+
 					/*console.log('==============================');
 					console.log('dX : ' + dX);
 					console.log('_touchX : ' + _touchX);
 					console.log('_flickXMove : ' + _flickXMove);*/
-						
+
 					if (Math.abs(_flickXMove) >= Math.abs(_flickYMove)) {
 						e.preventDefault();
 						_$slider.find("a").on('click.' + _evtNameSpace, function(e) {
@@ -501,24 +501,24 @@ $(function () {
 					_isMove = true;
 					_clearTimer();
 					_pagerCheck();
-					
-					
+
+
 					_slideX = (_slideNum * _itemW) - currentItemCenterOffset;
 					/*console.log('_slideNum : ' + _slideNum);
 					console.log('_slideX : ' + _slideX);*/
 					var easeStr,
 						moveSpeed;
-					
+
 					if (__cssAnimeSupport) {
-						
+
 						easeStr = _getEasingCss(_easing);
 						moveSpeed = _cssMoveSpeed;
-						
+
 						if(_isMoveFlick) {
 							easeStr = 'ease';
 							moveSpeed = _flickMoveSpeed;
 						}
-						
+
 						_$slider.css({
 							'-o-transition': '-o-transform ' + moveSpeed + 'ms ' + easeStr,
 							'-o-transform': 'translate(' + -_slideX + 'px, 0)',
@@ -544,16 +544,16 @@ $(function () {
 						}, moveSpeed);
 
 					} else {
-						
+
 						easeStr = _easing;
 						moveSpeed = _moveSpeed;
-						
-						
+
+
 						if(_isMoveFlick) {
 							easeStr = 'linear';
 							moveSpeed = _flickMoveSpeed;
 						}
-						
+
 						_$slider.animate({
 							'marginLeft': -_slideX
 						}, moveSpeed, easeStr, function() {
@@ -565,7 +565,7 @@ $(function () {
 
 					}
 				};
-				
+
 				var _instantPosNum = function(num) {
 					_slideNum = num;
 					var movePt = _itemW * num;
@@ -600,13 +600,13 @@ $(function () {
 						});
 					}
 				};
-				
+
 
 				var _numSlideMove = function(num) {
 					_slideNum = num;
 					_slideMove();
 				};
-				
+
 				var _slideMoveItemNum = function(num) {
 					_numSlideMove(num);
 					if((_slideNum >= _itemLength - _slidePieceNum) && _slidePieceNum !== 1) {
@@ -657,7 +657,7 @@ $(function () {
 					if ($target.hasClass(_pagerStayClass) || _isMove) {
 						return;
 					}
-					
+
 					_doStartFunc();
 					_panelNum = $target.data('panelNum');
 
@@ -676,7 +676,7 @@ $(function () {
 					if (!_hasPager) {
 						return;
 					}
-					
+
 					var $pagerItem = _$pager.find('> *');
 					$pagerItem.removeClass(_pagerStayClass);
 					if (_panelNum >= _panelLength) {
@@ -729,7 +729,7 @@ $(function () {
 					_numSlideMove(0);
 					_doMoveStartFunc();
 				};
-				
+
 				var _getStateObj = function(flagTxt) {
 					var stateObj = {};
 					stateObj.panelNum = _panelNum;
@@ -753,29 +753,29 @@ $(function () {
 					}
 					return stateObj;
 				};
-				
+
 				var _doStartFunc = function(nextOrPrev) {
 					if(_startFunc) {
 						_startFunc(_getStateObj(nextOrPrev));
 					}
 				};
-				
+
 				var _doMoveStartFunc = function(nextOrPrev) {
 					if(_moveStartFunc) {
 						_moveStartFunc(_getStateObj(nextOrPrev));
 					}
 				};
-				
+
 				var _doMoveEndFunc = function() {
 					if(_moveEndFunc) {
 						_moveEndFunc(_getStateObj());
 					}
 				};
-				
+
 				_that.getStateObj = function() {
 					return _getStateObj();
 				};
-				
+
 				_that.stateChange = function(changeObj) {
 					var doFlag = false;
 					if(changeObj.pieceOfItemNum && _pieceOfItemNum !== changeObj.pieceOfItemNum) {
@@ -790,7 +790,7 @@ $(function () {
 						_reset();
 					}
 				};
-				
+
 				_that.setPieceOfItemNum = function(newNum) {
 					if (_pieceOfItemNum !== newNum) {
 						_pieceOfItemNum = newNum;
@@ -804,15 +804,15 @@ $(function () {
 						_reset();
 					}
 				};
-				
+
 				_that.instantPosNum = function(newNum) {
 					_instantPosNum(newNum);
 				};
-				
+
 				_that.slideMoveItemNum = function(newNum) {
 					_slideMoveItemNum(newNum);
 				};
-				
+
 				_that.backOriginal = function() {
 					_$wrap.removeData();
 					_$wrap.replaceWith(_$originalHtml);
@@ -824,53 +824,53 @@ $(function () {
 
 				_init();
 			});
-			
-			
+
+
 			/*===========================================================================
 			↓イージングのcssを取得↓
 			===========================================================================*/
 			var _getEasingCss = function(easingStr) {
 				var easingPairObj = {
 					"linear"           : "linear",
-					
+
 					"swing"            : "ease-out",
-					
+
 					"easeInSine"       : "cubic-bezier(0.47, 0, 0.745, 0.715)",
 					"easeOutSine"      : "cubic-bezier(0.39, 0.575, 0.565, 1)",
 					"easeInOutSine"    : "cubic-bezier(0.445, 0.05, 0.55, 0.95)",
-					
+
 					"easeInQuad"       : "cubic-bezier(0.55, 0.085, 0.68, 0.53)",
 					"easeOutQuad"      : "cubic-bezier(0.25, 0.46, 0.45, 0.94)",
 					"easeInOutQuad"    : "cubic-bezier(0.455, 0.03, 0.515, 0.955)",
-					
+
 					"easeInCubic"      : "cubic-bezier(0.55, 0.055, 0.675, 0.19)",
 					"easeOutCubic"     : "cubic-bezier(0.215, 0.61, 0.355, 1)",
 					"easeInOutCubic"   : "cubic-bezier(0.645, 0.045, 0.355, 1)",
-					
+
 					"easeInQuart"      : "cubic-bezier(0.895, 0.03, 0.685, 0.22)",
 					"easeOutQuart"     : "cubic-bezier(0.165, 0.84, 0.44, 1)",
 					"easeInOutQuart"   : "cubic-bezier(0.77, 0, 0.175, 1)",
-					
+
 					"easeInQuint"      : "cubic-bezier(0.755, 0.05, 0.855, 0.06)",
 					"easeOutQuint"     : "cubic-bezier(0.23, 1, 0.32, 1)",
 					"easeInOutQuint"   : "cubic-bezier(0.86, 0, 0.07, 1)",
-					
+
 					"easeInExpo"       : "cubic-bezier(0.95, 0.05, 0.795, 0.035)",
 					"easeOutExpo"      : "cubic-bezier(0.19, 1, 0.22, 1)",
 					"easeInOutExpo"    : "cubic-bezier(1, 0, 0, 1)",
-					
+
 					"easeInCirc"       : "cubic-bezier(0.6, 0.04, 0.98, 0.335)",
 					"easeOutCirc"      : "cubic-bezier(0.075, 0.82, 0.165, 1)",
 					"easeInOutCirc"    : "cubic-bezier(0.785, 0.135, 0.15, 0.86)",
-					
+
 					"easeInBack"       : "cubic-bezier(0.6, -0.28, 0.735, 0.045)",
 					"easeOutBack"      : "cubic-bezier(0.175, 0.885, 0.32, 1.275)",
 					"easeInOutBack"    : "cubic-bezier(0.68, -0.55, 0.265, 1.55)",
-					
+
 					"easeInElastic"    : "linear", //null
 					"easeOutElastic"   : "linear", //null
 					"easeInOutElastic" : "linear", //null
-					
+
 					"easeInBounce"     : "linear", //null
 					"easeOutBounce"    : "linear", //null
 					"easeInOutBounce"  : "linear" //null
