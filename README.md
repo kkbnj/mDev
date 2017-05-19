@@ -1,9 +1,9 @@
 # mDev
 開発用テンプレート
-version 3.0.0
+version 3.1.0
 
 
-## 言語セット
+## 言語セット、ビルドツール
 - Pug
 - Stylus
 - Babel
