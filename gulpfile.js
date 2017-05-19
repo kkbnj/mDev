@@ -38,7 +38,7 @@ const PORT = 3001,
 
       // stylusSオプション
       STYLUS_OPTION = {
-        prefix: 'MM-',
+        prefix: '',
         compress: true,
       },
 
