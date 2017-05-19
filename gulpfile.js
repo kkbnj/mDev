@@ -280,7 +280,7 @@ gulp.task('server', () => {
       port: PORT,
       logLevel: 'silent',
       notify: false,
-      startPath: INDEX_DIR,
+      startPath: (INDEX_DIR ? '/' + INDEX_DIR + '/' : ''),
     })
   })
 })
