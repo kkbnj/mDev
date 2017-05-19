@@ -1,6 +1,8 @@
 docs
 
-public
+public/**/*.html
+public/**/*.css
+public/**/*.js
 
 .sass-cache
 *.css.map
