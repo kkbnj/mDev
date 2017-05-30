@@ -63,6 +63,7 @@ const gulp = require('gulp'),
       encoding = require('gulp-convert-encoding'),
       stylus = require('gulp-stylus'),
       nib = require('nib'),
+      autoprefixer = require('autoprefixer-stylus'),
       webpack = require('webpack-stream'),
       named = require('vinyl-named'),
       watch = require('gulp-watch'),
@@ -113,11 +114,11 @@ gulp.task('pug', () => {
       .pipe(plumber())
       .pipe(pug(Object.assign({}, default_options, {
         locals: Object.assign({}, COMMON_PARAMS, {
-          INDEX_DIR: (INDEX_DIR ? (INDEX_DIR.indexOf('http') === 0 ? '' : '/') + INDEX_DIR + '/' : '/'),
-        ASSETS_DIR: (ASSETS_DIR ? (ASSETS_DIR.indexOf('http') === 0 ? '' : '/') + ASSETS_DIR + '/' : '/'),
-        CSS_DIR: (CSS_DIR ? (CSS_DIR.indexOf('http') === 0 ? '' : '/') + CSS_DIR + '/' : '/'),
-        JS_DIR: (JS_DIR ? (JS_DIR.indexOf('http') === 0 ? '' : '/') + JS_DIR + '/' : '/'),
-        IMAGE_DIR: (IMAGE_DIR ? (IMAGE_DIR.indexOf('http') === 0 ? '' : '/') + IMAGE_DIR + '/' : '/'),
+          INDEX_DIR: (SP_INDEX_DIR ? (SP_INDEX_DIR.indexOf('http') === 0 ? '' : '/') + SP_INDEX_DIR + '/' : '/'),
+        ASSETS_DIR: (SP_ASSETS_DIR ? (SP_ASSETS_DIR.indexOf('http') === 0 ? '' : '/') + SP_ASSETS_DIR + '/' : '/'),
+        CSS_DIR: (SP_CSS_DIR ? (SP_CSS_DIR.indexOf('http') === 0 ? '' : '/') + SP_CSS_DIR + '/' : '/'),
+        JS_DIR: (SP_JS_DIR ? (SP_JS_DIR.indexOf('http') === 0 ? '' : '/') + SP_JS_DIR + '/' : '/'),
+        IMAGE_DIR: (SP_IMAGE_DIR ? (SP_IMAGE_DIR.indexOf('http') === 0 ? '' : '/') + SP_IMAGE_DIR + '/' : '/'),
 
           // for RELATIVE_PATH
           // INDEX_DIR: (RELATIVE_PATH ? '' : '/') + SP_INDEX_DIR + (SP_INDEX_DIR ? '/' : ''),
@@ -140,6 +141,14 @@ gulp.task('stylus', () => {
     import: ['nib'],
     use: [
       nib(),
+      autoprefixer({
+        browsers: [
+          'ios >= 7',
+          'ie 9',
+          'last 5 versions'
+        ],
+        hideWarning: true
+      }),
     ],
   }, STYLUS_OPTION)
 
@@ -170,11 +179,11 @@ gulp.task('stylus', () => {
       .pipe(plumber())
       .pipe(stylus(Object.assign({}, default_options, {
         rawDefine: Object.assign({}, COMMON_PARAMS, {
-          INDEX_DIR: (INDEX_DIR ? (INDEX_DIR.indexOf('http') === 0 ? '' : '/') + INDEX_DIR + '/' : '/'),
-        ASSETS_DIR: (ASSETS_DIR ? (ASSETS_DIR.indexOf('http') === 0 ? '' : '/') + ASSETS_DIR + '/' : '/'),
-        CSS_DIR: (CSS_DIR ? (CSS_DIR.indexOf('http') === 0 ? '' : '/') + CSS_DIR + '/' : '/'),
-        JS_DIR: (JS_DIR ? (JS_DIR.indexOf('http') === 0 ? '' : '/') + JS_DIR + '/' : '/'),
-        IMAGE_DIR: (IMAGE_DIR ? (IMAGE_DIR.indexOf('http') === 0 ? '' : '/') + IMAGE_DIR + '/' : '/'),
+          INDEX_DIR: (SP_INDEX_DIR ? (SP_INDEX_DIR.indexOf('http') === 0 ? '' : '/') + SP_INDEX_DIR + '/' : '/'),
+        ASSETS_DIR: (SP_ASSETS_DIR ? (SP_ASSETS_DIR.indexOf('http') === 0 ? '' : '/') + SP_ASSETS_DIR + '/' : '/'),
+        CSS_DIR: (SP_CSS_DIR ? (SP_CSS_DIR.indexOf('http') === 0 ? '' : '/') + SP_CSS_DIR + '/' : '/'),
+        JS_DIR: (SP_JS_DIR ? (SP_JS_DIR.indexOf('http') === 0 ? '' : '/') + SP_JS_DIR + '/' : '/'),
+        IMAGE_DIR: (SP_IMAGE_DIR ? (SP_IMAGE_DIR.indexOf('http') === 0 ? '' : '/') + SP_IMAGE_DIR + '/' : '/'),
 
           // for RELATIVE_PATH
           // INDEX_DIR: (RELATIVE_PATH ? path.relative(SP_CSS_DIR, SP_INDEX_DIR) + (path.relative(SP_CSS_DIR, SP_INDEX_DIR) ? '/' : '') : '/' + SP_INDEX_DIR + (SP_INDEX_DIR ? '/' : '')),
