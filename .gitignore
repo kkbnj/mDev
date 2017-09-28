@@ -1,6 +1,7 @@
 docs
 
 public/**/*.html
+public/**/*.php
 public/**/*.css
 public/**/*.js
 

@@ -38,7 +38,7 @@ meta(name='viewport' content='width=device-width')
 
 //- ページ情報
 if app_id
-  meta(property='og:app_id' content=app_id)
+  meta(property='fb:app_id' content=app_id)
 if site_name
   meta(property='og:site_name' content=site_name)
 
@@ -63,8 +63,3 @@ if page
 
 //- StyleSheet
 block common_css
-
-
-//- アナリティクスコード
-if ga_id
-  +ga(ga_id)
