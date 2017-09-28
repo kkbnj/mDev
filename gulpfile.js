@@ -115,10 +115,10 @@ gulp.task('pug', () => {
       .pipe(pug(Object.assign({}, default_options, {
         locals: Object.assign({}, COMMON_PARAMS, {
           INDEX_DIR: (SP_INDEX_DIR ? (SP_INDEX_DIR.indexOf('http') === 0 ? '' : '/') + SP_INDEX_DIR + '/' : '/'),
-        ASSETS_DIR: (SP_ASSETS_DIR ? (SP_ASSETS_DIR.indexOf('http') === 0 ? '' : '/') + SP_ASSETS_DIR + '/' : '/'),
-        CSS_DIR: (SP_CSS_DIR ? (SP_CSS_DIR.indexOf('http') === 0 ? '' : '/') + SP_CSS_DIR + '/' : '/'),
-        JS_DIR: (SP_JS_DIR ? (SP_JS_DIR.indexOf('http') === 0 ? '' : '/') + SP_JS_DIR + '/' : '/'),
-        IMAGE_DIR: (SP_IMAGE_DIR ? (SP_IMAGE_DIR.indexOf('http') === 0 ? '' : '/') + SP_IMAGE_DIR + '/' : '/'),
+          ASSETS_DIR: (SP_ASSETS_DIR ? (SP_ASSETS_DIR.indexOf('http') === 0 ? '' : '/') + SP_ASSETS_DIR + '/' : '/'),
+          CSS_DIR: (SP_CSS_DIR ? (SP_CSS_DIR.indexOf('http') === 0 ? '' : '/') + SP_CSS_DIR + '/' : '/'),
+          JS_DIR: (SP_JS_DIR ? (SP_JS_DIR.indexOf('http') === 0 ? '' : '/') + SP_JS_DIR + '/' : '/'),
+          IMAGE_DIR: (SP_IMAGE_DIR ? (SP_IMAGE_DIR.indexOf('http') === 0 ? '' : '/') + SP_IMAGE_DIR + '/' : '/'),
 
           // for RELATIVE_PATH
           // INDEX_DIR: (RELATIVE_PATH ? '' : '/') + SP_INDEX_DIR + (SP_INDEX_DIR ? '/' : ''),
@@ -180,10 +180,10 @@ gulp.task('stylus', () => {
       .pipe(stylus(Object.assign({}, default_options, {
         rawDefine: Object.assign({}, COMMON_PARAMS, {
           INDEX_DIR: (SP_INDEX_DIR ? (SP_INDEX_DIR.indexOf('http') === 0 ? '' : '/') + SP_INDEX_DIR + '/' : '/'),
-        ASSETS_DIR: (SP_ASSETS_DIR ? (SP_ASSETS_DIR.indexOf('http') === 0 ? '' : '/') + SP_ASSETS_DIR + '/' : '/'),
-        CSS_DIR: (SP_CSS_DIR ? (SP_CSS_DIR.indexOf('http') === 0 ? '' : '/') + SP_CSS_DIR + '/' : '/'),
-        JS_DIR: (SP_JS_DIR ? (SP_JS_DIR.indexOf('http') === 0 ? '' : '/') + SP_JS_DIR + '/' : '/'),
-        IMAGE_DIR: (SP_IMAGE_DIR ? (SP_IMAGE_DIR.indexOf('http') === 0 ? '' : '/') + SP_IMAGE_DIR + '/' : '/'),
+          ASSETS_DIR: (SP_ASSETS_DIR ? (SP_ASSETS_DIR.indexOf('http') === 0 ? '' : '/') + SP_ASSETS_DIR + '/' : '/'),
+          CSS_DIR: (SP_CSS_DIR ? (SP_CSS_DIR.indexOf('http') === 0 ? '' : '/') + SP_CSS_DIR + '/' : '/'),
+          JS_DIR: (SP_JS_DIR ? (SP_JS_DIR.indexOf('http') === 0 ? '' : '/') + SP_JS_DIR + '/' : '/'),
+          IMAGE_DIR: (SP_IMAGE_DIR ? (SP_IMAGE_DIR.indexOf('http') === 0 ? '' : '/') + SP_IMAGE_DIR + '/' : '/'),
 
           // for RELATIVE_PATH
           // INDEX_DIR: (RELATIVE_PATH ? path.relative(SP_CSS_DIR, SP_INDEX_DIR) + (path.relative(SP_CSS_DIR, SP_INDEX_DIR) ? '/' : '') : '/' + SP_INDEX_DIR + (SP_INDEX_DIR ? '/' : '')),
