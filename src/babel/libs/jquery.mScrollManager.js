@@ -1,4 +1,12 @@
-class ScrollManager {
+/*!
+ * jQuery mScrollManager v1.0
+ * Copyright: 2018 factory
+ * Contributing Author: Hiroki Homma
+ * Website: https://factory.kkbnj.com
+ * Github: https://github.com/kkbnj
+ * Require for jQuery v1.7 or above
+ */
+class mScrollManager {
   action() {
     let params = {
         scroll_top: $(window).scrollTop(),
@@ -98,4 +106,6 @@ class ScrollManager {
   }
 }
 
-export default ScrollManager
+(function($) {
+  $.mScrollManager = mScrollManager
+})($)

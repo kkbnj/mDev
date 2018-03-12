@@ -1,7 +1,9 @@
 /*!
  * jQuery mSlider v0.12
- * Copyright 2017-2018 maam.inc
+ * Copyright: 2017-2018 factory
  * Contributing Author: Hiroki Homma
+ * Website: https://factory.kkbnj.com
+ * Github: https://github.com/kkbnj
  * Require for jQuery v1.7 or above
  */
 class mSlider {

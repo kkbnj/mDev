@@ -1,7 +1,9 @@
 /*!
  * jQuery mFadeIn v1.2
- * Copyright 2016 maam.inc
+ * Copyright 2016-2018 factory
  * Contributing Author: Hiroki Homma
+ * Website: https://factory.kkbnj.com
+ * Github: https://github.com/kkbnj
  * Require for jQuery v1.7 or above
  */
 (function($) {

@@ -1,16 +1,19 @@
 include /data/common
 include /mixin/mixin
-block common_data
+block data
 
 html(lang='ja')
   head
     include /layout/head
 
-
   body
-    //- ページコンテンツ
-    block common_content
+    .Wrapper
+      //- include /modules/Header
+
+      block content
+
+      //- include /modules/Footer
 
     //- JavaScript
     script(src=JS_DIR + 'libs.js' type='text/javascript' charset='UTF-8')
-    block common_script
+    block script

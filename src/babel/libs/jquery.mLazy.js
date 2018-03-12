@@ -1,4 +1,12 @@
-class Lazy {
+/*!
+ * jQuery mLazy v1.0
+ * Copyright 2018 factory
+ * Contributing Author: Hiroki Homma
+ * Website: https://factory.kkbnj.com
+ * Github: https://github.com/kkbnj
+ * Require for jQuery v1.7 or above
+ */
+class mLazy {
   load($target) {
     let src = $target.attr('data-src'),
         srcset = $target.attr('data-srcset');
@@ -46,4 +54,6 @@ class Lazy {
   }
 }
 
-export default Lazy
+(function($) {
+  $.mLazy = mLazy
+})($)

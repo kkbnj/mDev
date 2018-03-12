@@ -1,12 +1,10 @@
 /*!
- * jQuery method mScroll v2.4
- * Copyright 2015-2017 maam.inc
+ * jQuery mScroll v2.4
+ * Copyright 2015-2018 factory
  * Contributing Author: Hiroki Homma
+ * Website: https://factory.kkbnj.com
+ * Github: https://github.com/kkbnj
  * Require for jQuery v1.7 or above
- * @param offset
- * @param speed
- * @param easing
- * @param callback
  */
  (function($) {
   $.mScroll = function(target, arg1, arg2, arg3, arg4) {

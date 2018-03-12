@@ -1,295 +1,175 @@
 const path = require('path')
 
-const PORT = 3001,
+const PORT = 3081,
+      WATCH_INTERVAL = 400,
 
-      // 文字コード
-      HTML_CHARSET = 'utf-8',
-      SP = false,
-
-      // URL
       PROTOCOL = 'http',
-      SERVER_NAME = 'maam.me',
-      HOST_NAME = PROTOCOL + '://' + SERVER_NAME,
+      SERVER_NAME = 'factory.kkbnj.com',
 
-      // 公開用ディレクトリ
       PUBLIC_DIR = 'public',
-      // RELATIVE_PATH = false, //未実装
-      INDEX_DIR = '',
-      SP_INDEX_DIR = path.join(INDEX_DIR, 'sp'),
-      CANONICAL_ROOT = HOST_NAME + (INDEX_DIR ? '/' + INDEX_DIR + '/' : ''),
-
-      // アセットディレクトリ
-      ASSETS_DIR = path.join(INDEX_DIR, 'assets'),
+      INDEX_DIR = 'test',
+      ASSETS_DIR = 'assets',
       CSS_DIR = path.join(ASSETS_DIR, 'css'),
       JS_DIR = path.join(ASSETS_DIR, 'js'),
-      IMAGE_DIR = path.join(ASSETS_DIR, 'images'),
+      IMAGE_DIR = path.join(ASSETS_DIR, 'image'),
 
-      // SPアセットディレクトリ
-      SP_ASSETS_DIR = path.join(SP_INDEX_DIR, 'assets'),
-      SP_CSS_DIR = path.join(SP_ASSETS_DIR, 'css'),
-      SP_JS_DIR = path.join(SP_ASSETS_DIR, 'js'),
-      SP_IMAGE_DIR = path.join(SP_ASSETS_DIR, 'images'),
+      HTML_MINIFY = true,
+      CSS_MINIFY = true,
+      JS_MINIFY = true,
 
-      // pugオプション
-      PUG_OPTION = {
-        doctype: 'html',
-        pretty: false,
-      },
-
-      // stylusSオプション
-      STYLUS_OPTION = {
-        prefix: '',
-        compress: true,
-      },
-
-      // 開発用ディレクトリ
       SRC_DIR = 'src',
       PUG_DIR = 'pug',
       STYLUS_DIR = 'stylus',
       BABEL_DIR = 'babel',
 
-      // PATHオブジェクト
-      COMMON_PARAMS = {
+      HOST_NAME = PROTOCOL + '://' + SERVER_NAME,
+      CANONICAL_ROOT = HOST_NAME + (INDEX_DIR ? '/' + INDEX_DIR + '/' : ''),
+
+      COMMON_VARS = {
         PROTOCOL: PROTOCOL,
         SERVER_NAME: SERVER_NAME,
         HOST_NAME: HOST_NAME,
         CANONICAL_ROOT: CANONICAL_ROOT,
-      };
+
+        INDEX_DIR: '/' + INDEX_DIR + (INDEX_DIR ? '/' : ''),
+        ASSETS_DIR: '/' + ASSETS_DIR + (ASSETS_DIR ? '/' : ''),
+        CSS_DIR: '/' + CSS_DIR + (CSS_DIR ? '/' : ''),
+        JS_DIR: '/' + JS_DIR + (JS_DIR ? '/' : ''),
+        IMAGE_DIR: '/' + IMAGE_DIR + (IMAGE_DIR ? '/' : ''),
+      }
 
 
-// モジュール読み込み
 const gulp = require('gulp'),
+      browserSync = require('browser-sync').create(),
+      plumber = require('gulp-plumber'),
+      notify = require('gulp-notify'),
+      cached = require('gulp-cached'),
       pug = require('gulp-pug'),
-      encoding = require('gulp-convert-encoding'),
       stylus = require('gulp-stylus'),
       nib = require('nib'),
-      autoprefixer = require('autoprefixer-stylus'),
-      webpack = require('webpack-stream'),
       named = require('vinyl-named'),
-      watch = require('gulp-watch'),
-      plumber = require('gulp-plumber'),
-      browserSync = require('browser-sync'),
-      connectPhp = require('gulp-connect-php'),
-      imagemin = require('gulp-imagemin'),
-      pngquant = require('imagemin-pngquant');
+      webpack = require('webpack'),
+      gulpWebpack = require('webpack-stream')
 
-// default
-gulp.task('default', ['server', 'pug', 'stylus', 'watch', 'webpack'])
+gulp.task('default', ['server', 'pug', 'stylus', 'webpack', 'watch'])
 
+gulp.task('watch', () => {
+  gulp.watch(
+    [
+      path.join(SRC_DIR, PUG_DIR, '**', '*')
+    ],
+    {
+      interval: WATCH_INTERVAL,
+    },
+    ['pug']
+  )
 
-// pug
-gulp.task('pug', () => {
-  const default_options = Object.assign({
-    basedir: path.join(SRC_DIR, PUG_DIR),
-    doctype: 'html',
-    pretty: true,
-  }, PUG_OPTION)
+  gulp.watch(
+    [
+      path.join(SRC_DIR, STYLUS_DIR, '**', '*.styl'),
+      path.join(SRC_DIR, STYLUS_DIR, '**', '*.css'),
+    ],
+    {
+      interval: WATCH_INTERVAL,
+    },
+    ['stylus'],
+  )
 
-  // pc
-  gulp
-    .src(path.join(SRC_DIR, PUG_DIR, 'pc/dir', '**', '*.pug'))
-    .pipe(plumber())
-    .pipe(pug(Object.assign({}, default_options, {
-      locals: Object.assign({}, COMMON_PARAMS, {
-        INDEX_DIR: (INDEX_DIR ? (INDEX_DIR.indexOf('http') === 0 ? '' : '/') + INDEX_DIR + '/' : '/'),
-        ASSETS_DIR: (ASSETS_DIR ? (ASSETS_DIR.indexOf('http') === 0 ? '' : '/') + ASSETS_DIR + '/' : '/'),
-        CSS_DIR: (CSS_DIR ? (CSS_DIR.indexOf('http') === 0 ? '' : '/') + CSS_DIR + '/' : '/'),
-        JS_DIR: (JS_DIR ? (JS_DIR.indexOf('http') === 0 ? '' : '/') + JS_DIR + '/' : '/'),
-        IMAGE_DIR: (IMAGE_DIR ? (IMAGE_DIR.indexOf('http') === 0 ? '' : '/') + IMAGE_DIR + '/' : '/'),
-
-        // for RELATIVE_PATH
-        // INDEX_DIR: (RELATIVE_PATH ? '' : '/') + INDEX_DIR + (INDEX_DIR ? '/' : ''),
-        // ASSETS_DIR: (RELATIVE_PATH ? '' : '/') + ASSETS_DIR + (ASSETS_DIR ? '/' : ''),
-        // CSS_DIR: (RELATIVE_PATH ? '' : '/') + CSS_DIR + (CSS_DIR ? '/' : ''),
-        // JS_DIR: (RELATIVE_PATH ? '' : '/') + JS_DIR + (JS_DIR ? '/' : ''),
-        // IMAGE_DIR: (RELATIVE_PATH ? '' : '/') + IMAGE_DIR + (IMAGE_DIR ? '/': ''),
-      }),
-    })))
-    .pipe(encoding({to: HTML_CHARSET}))
-    .pipe(gulp.dest(path.join(PUBLIC_DIR, INDEX_DIR)))
-
-  if(SP) {
-    gulp
-      .src(path.join(SRC_DIR, PUG_DIR, 'sp/dir', '**', '*.pug'))
-      .pipe(plumber())
-      .pipe(pug(Object.assign({}, default_options, {
-        locals: Object.assign({}, COMMON_PARAMS, {
-          INDEX_DIR: (SP_INDEX_DIR ? (SP_INDEX_DIR.indexOf('http') === 0 ? '' : '/') + SP_INDEX_DIR + '/' : '/'),
-          ASSETS_DIR: (SP_ASSETS_DIR ? (SP_ASSETS_DIR.indexOf('http') === 0 ? '' : '/') + SP_ASSETS_DIR + '/' : '/'),
-          CSS_DIR: (SP_CSS_DIR ? (SP_CSS_DIR.indexOf('http') === 0 ? '' : '/') + SP_CSS_DIR + '/' : '/'),
-          JS_DIR: (SP_JS_DIR ? (SP_JS_DIR.indexOf('http') === 0 ? '' : '/') + SP_JS_DIR + '/' : '/'),
-          IMAGE_DIR: (SP_IMAGE_DIR ? (SP_IMAGE_DIR.indexOf('http') === 0 ? '' : '/') + SP_IMAGE_DIR + '/' : '/'),
-
-          // for RELATIVE_PATH
-          // INDEX_DIR: (RELATIVE_PATH ? '' : '/') + SP_INDEX_DIR + (SP_INDEX_DIR ? '/' : ''),
-          // ASSETS_DIR: (RELATIVE_PATH ? '' : '/') + SP_ASSETS_DIR + (SP_ASSETS_DIR ? '/' : ''),
-          // CSS_DIR: (RELATIVE_PATH ? '' : '/') + SP_CSS_DIR + (SP_CSS_DIR ? '/' : ''),
-          // JS_DIR: (RELATIVE_PATH ? '' : '/') + SP_JS_DIR + (SP_JS_DIR ? '/' : ''),
-          // IMAGE_DIR: (RELATIVE_PATH ? '' : '/') + SP_IMAGE_DIR + (SP_IMAGE_DIR ? '/' : ''),
-        }),
-      })))
-      .pipe(encoding({to: HTML_CHARSET}))
-      .pipe(gulp.dest(path.join(PUBLIC_DIR, SP_INDEX_DIR)))
-  }
+  gulp.watch(
+    [
+      path.join(SRC_DIR, BABEL_DIR, '**', '*.js'),
+    ],
+    {
+      interval: WATCH_INTERVAL,
+    },
+    ['webpack']
+  )
 })
 
+gulp.task('pug', () => {
+  const options = {
+    basedir: path.join(SRC_DIR, PUG_DIR),
+    doctype: 'html',
+    pretty: HTML_MINIFY,
+    locals: COMMON_VARS,
+  }
 
-// stylus
+  gulp
+    .src(path.join(SRC_DIR, PUG_DIR, 'dir', '**', '*.pug'))
+    .pipe(plumber({
+      errorHandler: notify.onError('<%= error.message %>')
+    }))
+    .pipe(pug(options))
+    .pipe(gulp.dest(path.join(PUBLIC_DIR, INDEX_DIR)))
+})
+
 gulp.task('stylus', () => {
-  const default_options = Object.assign({
+  const options = {
     'include css': true,
+    compress: CSS_MINIFY,
     import: ['nib'],
     use: [
       nib(),
-      autoprefixer({
-        browsers: [
-          'ios >= 7',
-          'ie 9',
-          'last 5 versions'
-        ],
-        hideWarning: true
-      }),
     ],
-  }, STYLUS_OPTION)
+    rawDefine: COMMON_VARS,
+  }
 
   gulp
-    .src(path.join(SRC_DIR, STYLUS_DIR, 'pc/dir', '*.styl'))
-    .pipe(plumber())
-    .pipe(stylus(Object.assign({}, default_options, {
-      rawDefine: Object.assign({}, COMMON_PARAMS, {
-        INDEX_DIR: (INDEX_DIR ? (INDEX_DIR.indexOf('http') === 0 ? '' : '/') + INDEX_DIR + '/' : '/'),
-        ASSETS_DIR: (ASSETS_DIR ? (ASSETS_DIR.indexOf('http') === 0 ? '' : '/') + ASSETS_DIR + '/' : '/'),
-        CSS_DIR: (CSS_DIR ? (CSS_DIR.indexOf('http') === 0 ? '' : '/') + CSS_DIR + '/' : '/'),
-        JS_DIR: (JS_DIR ? (JS_DIR.indexOf('http') === 0 ? '' : '/') + JS_DIR + '/' : '/'),
-        IMAGE_DIR: (IMAGE_DIR ? (IMAGE_DIR.indexOf('http') === 0 ? '' : '/') + IMAGE_DIR + '/' : '/'),
-
-        // for RELATIVE_PATH
-        // INDEX_DIR: (RELATIVE_PATH ? path.relative(CSS_DIR, INDEX_DIR) + (path.relative(CSS_DIR, INDEX_DIR) ? '/' : '') : '/' + INDEX_DIR + (INDEX_DIR ? '/' : '')),
-        // ASSETS_DIR: (RELATIVE_PATH ? path.relative(CSS_DIR, ASSETS_DIR) + (path.relative(CSS_DIR, ASSETS_DIR) ? '/' : '') : '/' + ASSETS_DIR + (ASSETS_DIR ? '/' : '')),
-        // CSS_DIR: (RELATIVE_PATH ? path.relative(CSS_DIR, CSS_DIR) + (path.relative(CSS_DIR, CSS_DIR) ? '/' : '') : '/' + CSS_DIR + (CSS_DIR ? '/' : '')),
-        // JS_DIR: (RELATIVE_PATH ? path.relative(CSS_DIR, JS_DIR) + (path.relative(CSS_DIR, JS_DIR) ? '/' : '') : '/' + JS_DIR + (JS_DIR ? '/' : '')),
-        // IMAGE_DIR: (RELATIVE_PATH ? path.relative(CSS_DIR, IMAGE_DIR) + (path.relative(CSS_DIR, IMAGE_DIR) ? '/' : '') : '/' + IMAGE_DIR + (IMAGE_DIR ? '/' : '')),
-      }),
-    })))
+    .src(path.join(SRC_DIR, STYLUS_DIR, 'dir', '**', '*.styl'))
+    .pipe(plumber({
+      errorHandler: notify.onError('<%= error.message %>')
+    }))
+    .pipe(stylus(options))
     .pipe(gulp.dest(path.join(PUBLIC_DIR, CSS_DIR)))
-
-  if(SP) {
-    gulp
-      .src(path.join(SRC_DIR, STYLUS_DIR, 'sp/dir', '*.styl'))
-      .pipe(plumber())
-      .pipe(stylus(Object.assign({}, default_options, {
-        rawDefine: Object.assign({}, COMMON_PARAMS, {
-          INDEX_DIR: (SP_INDEX_DIR ? (SP_INDEX_DIR.indexOf('http') === 0 ? '' : '/') + SP_INDEX_DIR + '/' : '/'),
-          ASSETS_DIR: (SP_ASSETS_DIR ? (SP_ASSETS_DIR.indexOf('http') === 0 ? '' : '/') + SP_ASSETS_DIR + '/' : '/'),
-          CSS_DIR: (SP_CSS_DIR ? (SP_CSS_DIR.indexOf('http') === 0 ? '' : '/') + SP_CSS_DIR + '/' : '/'),
-          JS_DIR: (SP_JS_DIR ? (SP_JS_DIR.indexOf('http') === 0 ? '' : '/') + SP_JS_DIR + '/' : '/'),
-          IMAGE_DIR: (SP_IMAGE_DIR ? (SP_IMAGE_DIR.indexOf('http') === 0 ? '' : '/') + SP_IMAGE_DIR + '/' : '/'),
-
-          // for RELATIVE_PATH
-          // INDEX_DIR: (RELATIVE_PATH ? path.relative(SP_CSS_DIR, SP_INDEX_DIR) + (path.relative(SP_CSS_DIR, SP_INDEX_DIR) ? '/' : '') : '/' + SP_INDEX_DIR + (SP_INDEX_DIR ? '/' : '')),
-          // ASSETS_DIR: (RELATIVE_PATH ? path.relative(SP_CSS_DIR, SP_ASSETS_DIR) + (path.relative(SP_CSS_DIR, SP_ASSETS_DIR) ? '/' : '') : '/' + SP_ASSETS_DIR + (SP_ASSETS_DIR ? '/' : '')),
-          // CSS_DIR: (RELATIVE_PATH ? path.relative(SP_CSS_DIR, SP_CSS_DIR) + (path.relative(SP_CSS_DIR, SP_CSS_DIR) ? '/' : '') : '/' + SP_CSS_DIR + (SP_CSS_DIR ? '/' : '')),
-          // JS_DIR: (RELATIVE_PATH ? path.relative(SP_CSS_DIR, SP_JS_DIR) + (path.relative(SP_CSS_DIR, SP_JS_DIR) ? '/' : '') : '/' + SP_JS_DIR + (SP_JS_DIR ? '/' : '')),
-          // IMAGE_DIR: (RELATIVE_PATH ? path.relative(SP_CSS_DIR, SP_IMAGE_DIR) + (path.relative(SP_CSS_DIR, SP_IMAGE_DIR) ? '/' : '') : '/' + SP_IMAGE_DIR + (SP_IMAGE_DIR ? '/' : '')),
-        }),
-      })))
-      .pipe(gulp.dest(path.join(PUBLIC_DIR, SP_CSS_DIR)))
-  }
 })
 
 
-// webpack
 gulp.task('webpack', () => {
   const options = {
-    watch: true,
+    watch: false,
+    cache: true,
+    mode: (JS_MINIFY ? 'production' : 'development'),
     module: {
-      loaders: [
+      rules: [
         {
           test: /\.js$/,
-          loader: 'babel',
+          loader: 'babel-loader',
           query: {
-            presets: ['es2015']
+            presets: ['env']
           }
         }
       ]
-    },
-    resolve: {
-      extensions: ['', '.js', '.json']
-    },
-    plugins: [
-      new webpack.webpack.optimize.UglifyJsPlugin()
-    ],
-  };
-
-  gulp
-    .src(path.join(SRC_DIR, BABEL_DIR, 'pc/dir', '*.js'))
-    .pipe(plumber())
-    .pipe(named())
-    .pipe(webpack(options))
-    .pipe(gulp.dest(path.join(PUBLIC_DIR, JS_DIR)))
-
-  if(SP) {
-    gulp
-      .src(path.join(SRC_DIR, BABEL_DIR, 'sp/dir', '*.js'))
-      .pipe(plumber())
-      .pipe(named())
-      .pipe(webpack(options))
-      .pipe(gulp.dest(path.join(PUBLIC_DIR, SP_JS_DIR)))
+    }
   }
-});
 
-
-// imagemin
-gulp.task('imagemin', () => {
   gulp
-    .src([
-      path.join(SRC_DIR, IMAGE_DIR, '**', '*'),
-      path.join(SRC_DIR, SP_IMAGE_DIR, '**', '*'),
-    ])
-    .pipe(imagemin({
-      progressive: true,
-      use: [
-        pngquant({
-          quality: '80-90',
-          speed: 1
-        })
-      ]
+    .src(path.resolve(SRC_DIR, BABEL_DIR, 'dir', '**', '*.js'))
+    .pipe(plumber({
+      errorHandler: notify.onError('<%= error.message %>')
     }))
+    .pipe(named((file) => {
+      // ディレクトリを維持して出力
+      let dirname = path.relative(file.base, path.dirname(file.path)),
+          filename = path.basename(file.path, path.extname(file.path))
+
+      return path.join(dirname, filename)
+    }))
+    .pipe(gulpWebpack(options, webpack))
+    .pipe(gulp.dest(path.resolve(PUBLIC_DIR, JS_DIR)))
 })
 
 
-// watch
-gulp.task('watch', () => {
-  // pug
-  watch(path.join(SRC_DIR, PUG_DIR, '**', '*'), () => {
-    gulp.start(['pug'])
-  })
-
-  // stylus
-  watch(path.join(SRC_DIR, STYLUS_DIR, '**', '*'), () => {
-    gulp.start(['stylus'])
-  })
-
-  // imagemin
-  watch(path.join(SRC_DIR, IMAGE_DIR, '**', '*'), () => {
-    gulp.start(['imagemin']);
-  })
-})
-
-
-// server
 gulp.task('server', () => {
-  connectPhp.server({
-    base: PUBLIC_DIR,
+  browserSync.init({
+    files: path.join(PUBLIC_DIR, '**', '*'),
     port: PORT,
-  }, () => {
-    browserSync({
-      files: path.join(PUBLIC_DIR, '**', '*'),
-      proxy: 'localhost:' + PORT,
-      port: PORT,
-      logLevel: 'silent',
-      notify: false,
-      startPath: (INDEX_DIR ? '/' + INDEX_DIR + '/' : ''),
-    })
+    logLevel: 'silent',
+    notify: false,
+    scrollProportionally: false,
+    reloadDelay: 200,
+    startPath: (INDEX_DIR ? '/' + INDEX_DIR + '/' : ''),
+    server: {
+      baseDir: PUBLIC_DIR,
+    }
   })
 })

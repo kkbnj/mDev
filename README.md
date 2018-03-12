@@ -1,11 +1,12 @@
 # mDev
-開発用テンプレート
-version 3.1.0
+Musashi Template for Web Development
+version 4.0.0
 
-
-## 言語セット、ビルドツール
+## Language
 - Pug
 - Stylus
 - Babel
+
+## Tools
 - gulp
 - webpack

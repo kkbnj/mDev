@@ -1,7 +1,9 @@
 /*!
  * jQuery mModal v1.3
- * Copyright 2015-2016 maam.inc
+ * Copyright 2015-2018 factory
  * Contributing Author: Hiroki Homma
+ * Website: https://factory.kkbnj.com
+ * Github: https://github.com/kkbnj
  * Require for jQuery v1.7 or above
  */
 (function($) {
