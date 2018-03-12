@@ -7,7 +7,7 @@ const PORT = 3081,
       SERVER_NAME = 'factory.kkbnj.com',
 
       PUBLIC_DIR = 'public',
-      INDEX_DIR = 'test',
+      INDEX_DIR = '',
       ASSETS_DIR = 'assets',
       CSS_DIR = path.join(ASSETS_DIR, 'css'),
       JS_DIR = path.join(ASSETS_DIR, 'js'),
