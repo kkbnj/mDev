@@ -1,6 +1,6 @@
 /*!
  * jQuery mFadeIn v1.2
- * Copyright 2016-2018 factory
+ * Copyright: 2016-2018 factory
  * Contributing Author: Hiroki Homma
  * Website: https://factory.kkbnj.com
  * Github: https://github.com/kkbnj

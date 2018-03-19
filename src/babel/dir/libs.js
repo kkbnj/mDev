@@ -1,6 +1,7 @@
 require('scroll-restoration-polyfill')
 
-import $ from 'jquery'
+window.jQuery = require('jquery')
+window.$ = window.jQuery
 
 require('jquery.easing')
 require('velocity-animate')

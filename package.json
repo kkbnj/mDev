@@ -6,16 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kkbnj/mDev.git"
-  },
   "author": "Hiroki Homma",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/kkbnj/mDev/issues"
-  },
-  "homepage": "https://github.com/kkbnj/mDev#readme",
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",

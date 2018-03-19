@@ -1,6 +1,6 @@
 /*!
- * jQuery mScroll v2.4
- * Copyright 2015-2018 factory
+ * jQuery mScroll v2.5
+ * Copyright: 2015-2018 factory
  * Contributing Author: Hiroki Homma
  * Website: https://factory.kkbnj.com
  * Github: https://github.com/kkbnj
@@ -97,6 +97,10 @@
 
     if(target_position > max) {
       target_position = max;
+    }
+
+    if(target_position < 0) {
+      target_position = 0;
     }
 
     if(target_position !== $(window).scrollTop()) {

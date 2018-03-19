@@ -1,6 +1,6 @@
 const path = require('path')
 
-const PORT = 3081,
+const PORT = 3000,
       WATCH_INTERVAL = 400,
 
       PROTOCOL = 'http',
@@ -8,10 +8,10 @@ const PORT = 3081,
 
       PUBLIC_DIR = 'public',
       INDEX_DIR = '',
-      ASSETS_DIR = 'assets',
+      ASSETS_DIR = path.join(INDEX_DIR, 'assets'),
       CSS_DIR = path.join(ASSETS_DIR, 'css'),
       JS_DIR = path.join(ASSETS_DIR, 'js'),
-      IMAGE_DIR = path.join(ASSETS_DIR, 'image'),
+      IMAGE_DIR = path.join(ASSETS_DIR, 'images'),
 
       HTML_MINIFY = true,
       CSS_MINIFY = true,
@@ -135,7 +135,8 @@ gulp.task('webpack', () => {
           test: /\.js$/,
           loader: 'babel-loader',
           query: {
-            presets: ['env']
+            cacheDirectory: true,
+            presets: ['env'],
           }
         }
       ]
@@ -162,7 +163,9 @@ gulp.task('webpack', () => {
 gulp.task('server', () => {
   browserSync.init({
     files: path.join(PUBLIC_DIR, '**', '*'),
+
     port: PORT,
+    https: (PROTOCOL === 'https' ? true : false),
     logLevel: 'silent',
     notify: false,
     scrollProportionally: false,
