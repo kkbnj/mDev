@@ -12,14 +12,14 @@ public/**/*.js
 mysql
 
 # WordPress
-*.log
-wp-content/advanced-cache.php
-wp-content/backup-db/
-wp-content/backups/
-wp-content/blogs.dir/
-wp-content/cache/
-wp-content/upgrade/
-wp-content/wp-cache-config.php
+**/*.log
+**/wp-content/advanced-cache.php
+**/wp-content/backup-db/
+**/wp-content/backups/
+**/wp-content/blogs.dir/
+**/wp-content/cache/
+**/wp-content/upgrade/
+**/wp-content/wp-cache-config.php
 
 license.txt
 readme.html
@@ -27,4 +27,4 @@ sitemap.xml
 sitemap.xml.gz
 
 # node
-node_modules
+**/node_modules
