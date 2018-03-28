@@ -90,7 +90,7 @@ gulp.task('pug', () => {
   const options = {
     basedir: path.join(SRC_DIR, PUG_DIR),
     doctype: 'html',
-    pretty: HTML_MINIFY,
+    pretty: !HTML_MINIFY,
     locals: COMMON_VARS,
   }
 
