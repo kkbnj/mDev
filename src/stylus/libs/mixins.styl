@@ -1,0 +1,22 @@
+clearfix()
+  &:after
+    content ' '
+    display block
+    clear both
+
+
+mo_op(op = 0.65, duration = 120, easing = easeOutQuad)
+  display inline-block
+  transition opacity {duration}ms easing
+
+  &:hover
+    opacity op
+
+
+mo_op_resp(op = 0.65, duration = 120, easing = easeOutQuad)
+  @media screen and (min-width: (BREAKPOINT + 1)px)
+    display inline-block
+    transition opacity (duration)ms easing
+
+    &:hover
+      opacity op
