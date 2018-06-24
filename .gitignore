@@ -1,12 +1,17 @@
 docs
 release
 *.zip
+design
 
-# mDev
+.DS_Store
+
 public/**/*.html
 public/**/*.php
 public/**/*.css
 public/**/*.js
+
+.sass-cache
+*.css.map
 
 # docker
 mysql
