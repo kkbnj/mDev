@@ -1,5 +1,5 @@
 # mDev
-Musashi Template for Web Development
+Template for Web Development
 version 4.0.0
 
 ## Language
