@@ -26,6 +26,7 @@ if page
   if page.og_image
     meta(property='og:image' content=HOST_NAME + IMAGE_DIR + page.og_image)
   meta(property='og:url' content=page.canonical)
+  meta(name='twitter:card' content='summarylargeimage')
 
   meta(name='description' content=page.description)
   if page.keywords
@@ -34,5 +35,8 @@ if page
 
   link(rel='canonical' href=page.canonical)
 
+|<link href="https://fonts.googleapis.com/css?family=EB+Garamond" rel="stylesheet">
+
 //- StyleSheet
+//- link(href=CSS_DIR + 'common.css' rel='stylesheet' type='text/css')
 block css
