@@ -1,5 +1,5 @@
 /*!
- * jQuery mSlider v0.12
+ * jQuery mSlider v0.13
  * Copyright: 2017-2018 factory
  * Contributing Author: Hiroki Homma
  * Website: https://factory.kkbnj.com
@@ -483,8 +483,8 @@ class mSlider {
             top: 0,
             left: 0,
             right: 0,
-            height: 0,
-            paddingBottom: 100 * this.$slide.eq(0).outerHeight() / this.$slide.eq(0).width() + '%',
+            width: '100%',
+            height: '100%',
           })
 
           this.$slides.css({
