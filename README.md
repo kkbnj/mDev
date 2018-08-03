@@ -10,3 +10,7 @@ version 4.0.0
 ## Tools
 - gulp
 - webpack
+
+## Command
+- build
+`gulp`
