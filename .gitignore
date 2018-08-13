@@ -1,6 +1,6 @@
 docs
 release
-*.zip
+**/*.zip
 design
 
 .DS_Store
