@@ -1,0 +1,39 @@
+mixin picture(src, alt, type, className)
+  -
+    let media = '(max-width:' + BREAKPOINT + 'px)',
+
+        dirs = src.split('/'),
+        file = dirs[dirs.length - 1],
+        path = dirs.join('/').split(file)[0],
+        name = file.split('.')[0],
+        ext = file.split(name)[1],
+
+        srcset_pc = [
+          path + name + ext + ' 1x',
+          path + name + '@2x' + ext + ' 2x',
+        ],
+        srcset_sp = [
+          path + name + '-sp' + ext + ' 2x',
+          path + name + '-sp@3x' + ext + ' 3x',
+        ]
+
+    type = (type ? type : 'normal')
+
+  picture(class=(className ? className : ''))
+    - if(type === 'pc')
+      img(src=(path + name + ext) srcset=srcset_pc.join(', ') alt=alt)
+
+    - else if(type === 'sp')
+      img(src=(path + name + '-sp' + ext) srcset=srcset_sp.join(', ') alt=alt)
+
+    - else if(type === 'normal')
+      source(media=media src=(path + name + '-sp' + ext))
+      img(src=(path + name + ext) alt=alt)
+
+    - else if(type === 'retina')
+      source(media=media src=(path + name + '-sp@3x' + ext))
+      img(src=(path + name + '@2x' + ext) alt=alt)
+
+    - else if(type === 'full')
+      source(media=media srcset=srcset_sp.join(', '))
+      img(src=(path + name + ext) srcset=srcset_pc.join(', ') alt=alt)

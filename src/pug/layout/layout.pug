@@ -1,5 +1,9 @@
 include /data/common
-include /mixin/mixin
+
+//- mixins
+include /mixin/picture
+include /mixin/price_comma
+
 block data
 
 doctype
@@ -8,12 +12,12 @@ html(lang='ja')
     include /layout/head
 
   body
-    .Wrapper
-      //- include /modules/Header
+    .wrapper
+      //- include /modules/header
 
       block content
 
-      //- include /modules/Footer
+      //- include /modules/footer
 
     //- JavaScript
     script(src=JS_DIR + 'libs.js' type='text/javascript' charset='UTF-8')

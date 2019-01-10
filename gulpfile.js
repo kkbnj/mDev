@@ -13,8 +13,10 @@ const PORT = 3000,
       JS_DIR = path.join(ASSETS_DIR, 'js'),
       IMAGE_DIR = path.join(ASSETS_DIR, 'images'),
 
-      HTML_MINIFY = true,
-      CSS_MINIFY = true,
+      // HTML_MINIFY = true,
+      HTML_MINIFY = false,
+      // CSS_MINIFY = true,
+      CSS_MINIFY = false,
       JS_MINIFY = true,
 
       SRC_DIR = 'src',
