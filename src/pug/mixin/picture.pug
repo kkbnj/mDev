@@ -27,11 +27,11 @@ mixin picture(src, alt, type, className)
       img(src=(path + name + '-sp' + ext) srcset=srcset_sp.join(', ') alt=alt)
 
     - else if(type === 'normal')
-      source(media=media src=(path + name + '-sp' + ext))
+      source(media=media srcset=(path + name + '-sp' + ext))
       img(src=(path + name + ext) alt=alt)
 
     - else if(type === 'retina')
-      source(media=media src=(path + name + '-sp@3x' + ext))
+      source(media=media srcset=(path + name + '-sp@3x' + ext))
       img(src=(path + name + '@2x' + ext) alt=alt)
 
     - else if(type === 'full')

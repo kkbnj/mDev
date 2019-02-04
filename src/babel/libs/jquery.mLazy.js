@@ -1,6 +1,6 @@
 /*!
- * jQuery mLazy v2.0
- * Copyright: 2018 factory
+ * jQuery mLazy v2.1
+ * Copyright: 2018-2019 factory
  * Contributing Author: Hiroki Homma
  * Website: https://factory.kkbnj.com
  * Github: https://github.com/kkbnj
@@ -34,7 +34,7 @@ class mLazy {
     self.$target.each(function(i) {
       if(self.flag[i]) return;
 
-      if(scroll_top + scroll_offset > $(this).offset().top) {
+      if($(this).offset().top > 0 && scroll_top + scroll_offset > $(this).offset().top) {
         self.flag[i] = true
 
         // thisがimgかsourceの場合

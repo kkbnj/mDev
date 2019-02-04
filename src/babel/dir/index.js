@@ -1,3 +1,4 @@
+import Util from '../modules/Util'
 // import Menu from '../modules/Menu'
 
 $(() => {
@@ -7,4 +8,7 @@ $(() => {
   })
 
   $('.mShare').mShare()
+
+  window.inview = new $.inview($('.inview'))
+  window.inview.play()
 })
