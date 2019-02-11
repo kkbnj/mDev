@@ -13,10 +13,8 @@ const PORT = 3000,
       JS_DIR = path.join(ASSETS_DIR, 'js'),
       IMAGE_DIR = path.join(ASSETS_DIR, 'images'),
 
-      // HTML_MINIFY = true,
-      HTML_MINIFY = false,
-      // CSS_MINIFY = true,
-      CSS_MINIFY = false,
+      HTML_MINIFY = true,
+      CSS_MINIFY = true,
       JS_MINIFY = true,
 
       SRC_DIR = 'src',
@@ -53,7 +51,9 @@ const gulp = require('gulp'),
       webpack = require('webpack'),
       gulpWebpack = require('webpack-stream')
 
-gulp.task('default', ['server', 'pug', 'stylus', 'webpack', 'watch'])
+gulp.task('default', ['server', 'build', 'watch'])
+
+gulp.task('build', ['pug', 'stylus', 'webpack'])
 
 gulp.task('watch', () => {
   gulp.watch(
