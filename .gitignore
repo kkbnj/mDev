@@ -1,14 +1,14 @@
-docs
-release
+/docs
+/release
 *.zip
-design
+/design
 
 .DS_Store
 
-public/**/*.html
-public/**/*.php
-public/**/*.css
-public/**/*.js
+/public/**/*.html
+/public/**/*.php
+/public/**/*.css
+/public/**/*.js
 
 .sass-cache
 *.css.map
