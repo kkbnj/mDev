@@ -25,6 +25,9 @@ class Util {
     this.ua = window.navigator.userAgent.toLowerCase()
     this.mode = 'pc'
     this.breakpoint = 736
+    this.winW = $(window).width()
+    this.winH = $(window).height()
+    this.scr = $(window).scrollTop()
 
     this.eventHandler()
   }

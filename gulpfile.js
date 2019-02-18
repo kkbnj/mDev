@@ -1,5 +1,7 @@
 const path = require('path')
 
+
+// START ENV VARS
 const PORT = 3000,
       WATCH_INTERVAL = 400,
 
@@ -12,17 +14,28 @@ const PORT = 3000,
       CSS_DIR = path.join(ASSETS_DIR, 'css'),
       JS_DIR = path.join(ASSETS_DIR, 'js'),
       IMAGE_DIR = path.join(ASSETS_DIR, 'images'),
-
+      START_DIR = path.join(INDEX_DIR, ''),
+      OUTPUT_PATH = [
+        // {
+        //   pug: '',
+        //   dirname: '',
+        //   filename: '',
+        // },
+      ],
       HTML_MINIFY = true,
       CSS_MINIFY = true,
       JS_MINIFY = true,
+      SHIFT_JIS = false,
 
       SRC_DIR = 'src',
       PUG_DIR = 'pug',
       STYLUS_DIR = 'stylus',
-      BABEL_DIR = 'babel',
+      BABEL_DIR = 'babel'
+// END ENV VARS
 
-      HOST_NAME = PROTOCOL + '://' + SERVER_NAME,
+
+
+const HOST_NAME = PROTOCOL + '://' + SERVER_NAME,
       CANONICAL_ROOT = HOST_NAME + (INDEX_DIR ? '/' + INDEX_DIR + '/' : ''),
 
       COMMON_VARS = {
@@ -40,6 +53,8 @@ const PORT = 3000,
 
 
 const gulp = require('gulp'),
+      gulpif = require('gulp-if'),
+      flatmap = require('gulp-flatmap'),
       browserSync = require('browser-sync').create(),
       plumber = require('gulp-plumber'),
       notify = require('gulp-notify'),
@@ -48,8 +63,11 @@ const gulp = require('gulp'),
       stylus = require('gulp-stylus'),
       nib = require('nib'),
       named = require('vinyl-named'),
+      rename = require('gulp-rename'),
+      replace = require('gulp-replace'),
       webpack = require('webpack'),
-      gulpWebpack = require('webpack-stream')
+      gulpWebpack = require('webpack-stream'),
+      convertEncoding = require('gulp-convert-encoding')
 
 gulp.task('default', ['server', 'build', 'watch'])
 
@@ -102,7 +120,37 @@ gulp.task('pug', () => {
       errorHandler: notify.onError('<%= error.message %>')
     }))
     .pipe(pug(options))
+    .pipe(gulpif(SHIFT_JIS && !OUTPUT_PATH, replace('text/html; charset=UTF-8', 'text/html; charset=Shift_JIS')))
+    .pipe(gulpif(SHIFT_JIS && !OUTPUT_PATH, replace('"/>', '" />')))
+    .pipe(gulpif(SHIFT_JIS && !OUTPUT_PATH, replace('<br/>', '<br />')))
+    .pipe(gulpif(SHIFT_JIS && !OUTPUT_PATH, convertEncoding({to: 'Shift_JIS'})))
+    // .pipe(rename((path) => {
+    //   path.basename += '_sjis'
+    // }))
     .pipe(gulp.dest(path.join(PUBLIC_DIR, INDEX_DIR)))
+    .pipe(flatmap((stream, file) => {
+      if(OUTPUT_PATH) {
+        let pathname = file.path.split(path.join(PUBLIC_DIR, INDEX_DIR, '/'))[1]
+
+        pathname = pathname.split(path.extname(pathname))[0]
+
+        for(let i = 0; i < OUTPUT_PATH.length; i++) {
+          if(OUTPUT_PATH[i].pug === pathname) {
+            gulp.src(file.path)
+              .pipe(gulpif(SHIFT_JIS, replace('text/html; charset=UTF-8', 'text/html; charset=Shift_JIS')))
+              .pipe(gulpif(SHIFT_JIS, replace('"/>', '" />')))
+              .pipe(gulpif(SHIFT_JIS, replace('<br/>', '<br />')))
+              .pipe(gulpif(SHIFT_JIS, convertEncoding({to: 'Shift_JIS'})))
+              .pipe(rename((path) => {
+                path.basename = OUTPUT_PATH[i].filename
+              }))
+              .pipe(gulp.dest(path.join(PUBLIC_DIR, OUTPUT_PATH[i].dirname)))
+          }
+        }
+      }
+
+      return stream
+    }))
 })
 
 gulp.task('stylus', () => {
@@ -172,7 +220,7 @@ gulp.task('server', () => {
     notify: false,
     scrollProportionally: false,
     reloadDelay: 200,
-    startPath: (INDEX_DIR ? '/' + INDEX_DIR + '/' : ''),
+    startPath: (START_DIR ? '/' + START_DIR + '/' : ''),
     server: {
       baseDir: PUBLIC_DIR,
     }
