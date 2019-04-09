@@ -1,35 +1,61 @@
 class Util {
+  resize() {
+    this.winW = $(window).width()
+    this.winH = $(window).height()
+
+    if(this.winW <= this.breakpoint) {
+      this.mode = 'sp'
+
+    } else if(this.ua.indexOf('ipad') !== -1 || this.ua.indexOf('android') !== -1) {
+      this.mode = 'tablet'
+
+    } else {
+      this.mode = 'pc'
+    }
+  }
+
+  scroll() {
+    this.scr = $(window).scrollTop()
+    this.scrLeft = $(window).scrollLeft()
+  }
+
   eventHandler() {
     $(window).on('resize.Util', () => {
-      this.winW = $(window).width()
-      this.winH = $(window).height()
-      this.scr = $(window).scrollTop()
-
-      if(this.winW <= this.breakpoint) {
-        this.mode = 'sp'
-
-      } else if(this.ua.indexOf('ipad') !== -1 || this.ua.indexOf('android') !== -1) {
-        this.mode = 'tablet'
-
-      } else {
-        this.mode = 'pc'
-      }
+      this.resize()
+      this.scroll()
     })
 
     $(window).on('scroll.Util', () => {
-      this.scr = $(window).scrollTop()
+      this.scroll()
     })
+  }
+
+  init() {
+    this.touchDevice = (
+      (this.ua.indexOf('windows') != -1 && this.ua.indexOf('touch') != -1 && this.ua.indexOf('tablet pc') == -1)
+      || this.ua.indexOf('ipad') != -1
+      || this.ua.indexOf('iphone') != -1
+      || this.ua.indexOf('ipod') != -1
+      || this.ua.indexOf('android') != -1
+      || (this.ua.indexOf('firefox') != -1 && this.ua.indexOf('tablet') != -1)
+      || (this.ua.indexOf('firefox') != -1 && this.ua.indexOf('mobile') != -1)
+      || this.ua.indexOf('kindle') != -1
+      || this.ua.indexOf('silk') != -1
+      || this.ua.indexOf('playbook') != -1
+      || (this.ua.indexOf('windows') != -1 && this.ua.indexOf('phone') != -1)
+      || this.ua.indexOf('blackberry') != -1
+    ) ? true : false
   }
 
   constructor() {
     this.ua = window.navigator.userAgent.toLowerCase()
-    this.mode = 'pc'
     this.breakpoint = 736
-    this.winW = $(window).width()
-    this.winH = $(window).height()
-    this.scr = $(window).scrollTop()
 
+    this.init()
     this.eventHandler()
+
+    this.resize()
+    this.scroll()
   }
 }
 
