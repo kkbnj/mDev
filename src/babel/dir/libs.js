@@ -9,7 +9,7 @@ require('imagesloaded')
 
 require('../libs/requestAFrame.js')
 require('../libs/jquery.mScroll.js')
-require('../libs/jquery.mShare.js')
+// require('../libs/jquery.mShare.js')
 require('../libs/jquery.inview.js')
 // require('../libs/jquery.mLazy.js')
 // require('../libs/jquery.mScrollManager.js')

@@ -39,12 +39,16 @@ class Inview {
         this.$target.each((i) => {
           if(!this.show_flag[i] && this.offset[i] <= scr + this.winHeight * this.threshold) {
             this.show_flag[i] = true
-            this.$target.eq(i).addClass('inview--active')
             this.callback(this.$target.eq(i))
+            this.$target.eq(i).addClass('inview--active')
           }
         })
       }
     }, 1000 / this.fps)
+  }
+
+  pause() {
+    clearInterval(this.interval)
   }
 
   stop() {

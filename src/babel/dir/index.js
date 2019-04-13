@@ -1,3 +1,4 @@
+import {TweenMax, Power2} from "gsap/TweenMax"
 import Util from '../modules/Util'
 // import Menu from '../modules/Menu'
 
@@ -9,8 +10,8 @@ $(() => {
     easing: 'easeInOutExpo',
   })
 
-  $('.mShare').mShare()
+  // $('.mShare').mShare()
 
-  window.inview = new $.inview($('.inview'))
-  window.inview.play()
+  // window.inview = new $.inview($('.inview'))
+  // window.inview.play()
 })
