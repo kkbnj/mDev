@@ -18,6 +18,7 @@
     "babel-loader": "^7.1.4",
     "babel-preset-env": "^1.6.1",
     "browser-sync": "^2.23.6",
+    "gsap": "^2.1.2",
     "gulp": "^3.9.1",
     "gulp-cached": "^1.1.1",
     "gulp-convert-encoding": "^1.0.0",
