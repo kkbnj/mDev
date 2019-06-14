@@ -1,6 +1,6 @@
 /*!
- * jQuery mScroll v2.5
- * Copyright: 2015-2018 factory
+ * jQuery mScroll v2.61
+ * Copyright: 2015-2019 factory
  * Contributing Author: Hiroki Homma
  * Website: https://factory.kkbnj.com
  * Github: https://github.com/kkbnj
@@ -67,6 +67,10 @@
       custom_offset = params.$container.scrollTop()
     }
 
+    if(arg1.$container) {
+      max = params.$container.outerHeight() - $(window).height()
+    }
+
     if(target === '#') {
       target_position = 0;
 
@@ -89,7 +93,7 @@
       params.jump = params.jump()
     }
 
-    target_position += params.offset + custom_offset;
+    target_position += params.offset - custom_offset;
 
     $(window).on('mousewheel.mScroll touchstart.mScroll keydown.mScroll', function(e) {
       e.preventDefault ? e.preventDefault() : e.returnValue = false;
