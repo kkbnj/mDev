@@ -1,6 +1,6 @@
 import {TweenLite, Power2} from "gsap/TweenLite"
-import Util from '../modules/Util'
-// import Menu from '../modules/Menu'
+import Util from '../modules/common/Util'
+// import Menu from '../modules/common/Menu'
 
 $(() => {
   window.util = new Util
