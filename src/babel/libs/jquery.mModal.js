@@ -1,6 +1,6 @@
 /*!
- * jQuery mModal v1.3
- * Copyright: 2015-2018 factory
+ * jQuery mModal v1.4
+ * Copyright: 2015-2019 factory
  * Contributing Author: Hiroki Homma
  * Website: https://factory.kkbnj.com
  * Github: https://github.com/kkbnj
@@ -24,6 +24,7 @@
 
         open_classname: 'mModal-open',
         close_classname: 'mModal-close',
+        toggle_classname: 'mModal-toggle',
         page_classname: 'mModal-page',
         modal_classname: 'mModal-modal',
         modal_cont_classname: 'mModal-modal_cont',
@@ -33,6 +34,7 @@
       params = $.extend({}, default_options, options),
 
       $body = $('body'),
+      $toggle = $('.' + params.toggle_classname),
       $open = $('.' + params.open_classname),
       $modal = $('.' + params.modal_classname),
       $modal_cont = $('.' + params.modal_cont_classname),
@@ -244,6 +246,17 @@
         e.preventDefault ? e.preventDefault() : e.returnValue = false;
 
         close(e);
+      });
+      $toggle.on('click.mModal', function(e) {
+        e.stopPropagation ? e.stopPropagation() : '';
+        e.preventDefault ? e.preventDefault() : e.returnValue = false;
+
+        if(!$body.hasClass(params.opened_classname)) {
+          open(e);
+
+        } else {
+          close(e);
+        }
       });
 
       //Set CSS

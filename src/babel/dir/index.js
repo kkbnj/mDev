@@ -4,6 +4,9 @@ import Util from '../modules/common/Util'
 
 $(() => {
   window.util = new Util
+  if(util.mode === 'tablet') {
+    $('meta[name="viewport"]').attr('content', 'width=1280')
+  }
 
   $('.mScroll').mScroll({
     duration: 640,

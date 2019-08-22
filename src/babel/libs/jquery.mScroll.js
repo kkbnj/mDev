@@ -1,5 +1,5 @@
 /*!
- * jQuery mScroll v2.61
+ * jQuery mScroll v2.63
  * Copyright: 2015-2019 factory
  * Contributing Author: Hiroki Homma
  * Website: https://factory.kkbnj.com
@@ -15,6 +15,7 @@
           duration: false,
           easing: false,
           queue: false,
+          before: undefined,
           complete: undefined,
           delay: 0,
           jump: false,
@@ -107,15 +108,19 @@
       target_position = 0;
     }
 
+    if(typeof params.before === 'function') {
+      params.before();
+    }
+
     if(target_position !== $(window).scrollTop()) {
       setTimeout(function() {
         if(params.jump) {
           if(Math.abs(target_position - $(window).scrollTop()) > params.jump) {
             if(target_position > $(window).scrollTop()) {
-              $('html, body').scrollTop(target_position - params.jump)
+              $('html, body').scrollTop(Math.ceil(target_position - params.jump))
 
             } else {
-              $('html, body').scrollTop(target_position + params.jump)
+              $('html, body').scrollTop(Math.ceil(target_position + params.jump))
 
             }
           }

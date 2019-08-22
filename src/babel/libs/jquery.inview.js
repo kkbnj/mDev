@@ -18,31 +18,40 @@ class Inview {
     this.scroll_flag = true
   }
 
+  adjust() {
+    this.winHeight = $(window).height()
+
+    this.$target.each((i) => {
+      this.offset[i] = this.$target.eq(i).offset().top
+    })
+  }
+
+  judge() {
+    let scr = $(window).scrollTop()
+
+    this.$target.each((i) => {
+      if(!this.show_flag[i] && this.offset[i] <= scr + this.winHeight * this.threshold) {
+        this.show_flag[i] = true
+        this.callback(this.$target.eq(i))
+        this.$target.eq(i).addClass('inview--active')
+      }
+    })
+  }
+
   play() {
     this.interval = setInterval(() => {
       this.resize()
 
       if(this.resize_flag) {
         this.resize_flag = false
-        this.winHeight = $(window).height()
 
-        this.$target.each((i) => {
-          this.offset[i] = this.$target.eq(i).offset().top
-        })
+        this.adjust()
       }
 
       if(this.scroll_flag) {
         this.scroll_flag = false
 
-        let scr = $(window).scrollTop()
-
-        this.$target.each((i) => {
-          if(!this.show_flag[i] && this.offset[i] <= scr + this.winHeight * this.threshold) {
-            this.show_flag[i] = true
-            this.callback(this.$target.eq(i))
-            this.$target.eq(i).addClass('inview--active')
-          }
-        })
+        this.judge()
       }
     }, 1000 / this.fps)
   }
