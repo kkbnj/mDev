@@ -1,4 +1,4 @@
-import {TweenLite, Power2} from "gsap/TweenLite"
+// import {TweenLite, Power2} from "gsap/TweenLite"
 import Util from '../modules/common/Util'
 // import Menu from '../modules/common/Menu'
 

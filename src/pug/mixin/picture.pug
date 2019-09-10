@@ -1,4 +1,4 @@
-mixin picture(src, alt, type, className)
+mixin picture(src, alt, type, className, lazy)
   -
     let media = '(max-width:' + BREAKPOINT + 'px)',
 
@@ -20,20 +20,40 @@ mixin picture(src, alt, type, className)
     type = (type ? type : 'normal')
 
   picture(class=(className ? className : ''))
-    - if(type === 'pc')
-      img(src=(path + name + ext) srcset=srcset_pc.join(', ') alt=alt)
+    - if(!lazy)
+      - if(type === 'pc')
+        img(src=(path + name + ext) srcset=srcset_pc.join(', ') alt=alt)
 
-    - else if(type === 'sp')
-      img(src=(path + name + '-sp' + ext) srcset=srcset_sp.join(', ') alt=alt)
+      - else if(type === 'sp')
+        img(src=(path + name + '-sp' + ext) srcset=srcset_sp.join(', ') alt=alt)
 
-    - else if(type === 'normal')
-      source(media=media srcset=(path + name + '-sp' + ext))
-      img(src=(path + name + ext) alt=alt)
+      - else if(type === 'normal')
+        source(media=media srcset=(path + name + '-sp' + ext))
+        img(src=(path + name + ext) alt=alt)
 
-    - else if(type === 'retina')
-      source(media=media srcset=(path + name + '-sp@3x' + ext))
-      img(src=(path + name + '@2x' + ext) alt=alt)
+      - else if(type === 'retina')
+        source(media=media srcset=(path + name + '-sp@3x' + ext))
+        img(src=(path + name + '@2x' + ext) alt=alt)
 
-    - else if(type === 'full')
-      source(media=media srcset=srcset_sp.join(', '))
-      img(src=(path + name + ext) srcset=srcset_pc.join(', ') alt=alt)
+      - else if(type === 'full')
+        source(media=media srcset=srcset_sp.join(', '))
+        img(src=(path + name + ext) srcset=srcset_pc.join(', ') alt=alt)
+
+    - else
+      - if(type === 'pc')
+        img(data-src=(path + name + ext) data-srcset=srcset_pc.join(', ') alt=alt)
+
+      - else if(type === 'sp')
+        img(data-src=(path + name + '-sp' + ext) data-srcset=srcset_sp.join(', ') alt=alt)
+
+      - else if(type === 'normal')
+        source(media=media data-srcset=(path + name + '-sp' + ext))
+        img(data-src=(path + name + ext) alt=alt)
+
+      - else if(type === 'retina')
+        source(media=media data-srcset=(path + name + '-sp@3x' + ext))
+        img(data-src=(path + name + '@2x' + ext) alt=alt)
+
+      - else if(type === 'full')
+        source(media=media data-srcset=srcset_sp.join(', '))
+        img(data-src=(path + name + ext) data-srcset=srcset_pc.join(', ') alt=alt)
