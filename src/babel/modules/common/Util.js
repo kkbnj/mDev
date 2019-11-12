@@ -6,7 +6,7 @@ class Util {
     if(this.winW <= this.breakpoint) {
       this.mode = 'sp'
 
-    } else if(this.ua.indexOf('ipad') !== -1 || this.ua.indexOf('android') !== -1) {
+    } else if(this.ua.indexOf('ipad') !== -1 || (this.ua.indexOf('macintosh') > -1 && 'ontouchend' in document) || this.ua.indexOf('android') !== -1) {
       this.mode = 'tablet'
 
     } else {
