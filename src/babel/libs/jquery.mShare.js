@@ -1,8 +1,8 @@
 /*!
- * jQuery mShare v2.1
- * Copyright: 2017-2018 factory
+ * jQuery mShare v2.2
+ * Copyright: 2017-2020 past inc.
  * Contributing Author: Hiroki Homma
- * Website: https://factory.kkbnj.com
+ * Website: https://pxxx.jp
  * Github: https://github.com/kkbnj
  * Require for jQuery v1.7 or above
  */
@@ -52,7 +52,10 @@
         break;
 
         case 'tw':
-          apiUrl = 'http://twitter.com/intent/tweet?url=' + encodeURI(params.url) + '&amp;text=' + encodeURI(params.text);
+          apiUrl = 'http://twitter.com/intent/tweet?text=' + encodeURI(params.text.replace(/#/g, '')) + '&url=' + encodeURI(params.url);
+          if(params.hash) {
+            apiUrl += '&hashtags=' + encodeURI(params.hash)
+          }
         break;
 
         case 'line':

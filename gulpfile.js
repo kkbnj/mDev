@@ -69,9 +69,12 @@ const gulp = require('gulp'),
       gulpWebpack = require('webpack-stream'),
       convertEncoding = require('gulp-convert-encoding')
 
-gulp.task('default', ['server', 'build', 'watch'])
 
-gulp.task('build', ['pug', 'stylus', 'webpack'])
+gulp.task('default', ['server', 'build', 'watch', 'copy'])
+
+
+gulp.task('build', ['pug', 'stylus', 'webpack', 'copy'])
+
 
 gulp.task('watch', () => {
   gulp.watch(
@@ -105,6 +108,31 @@ gulp.task('watch', () => {
     ['webpack']
   )
 })
+
+
+gulp.task('copy', () => {
+  gulp
+    .src(path.join(SRC_DIR, PUG_DIR, 'extra', '**', '*.html'))
+    .pipe(plumber({
+      errorHandler: notify.onError('<%= error.message %>')
+    }))
+    .pipe(gulp.dest(path.join(PUBLIC_DIR, INDEX_DIR)))
+
+  gulp
+    .src(path.join(SRC_DIR, STYLUS_DIR, 'extra', '**', '*.css'))
+    .pipe(plumber({
+      errorHandler: notify.onError('<%= error.message %>')
+    }))
+    .pipe(gulp.dest(path.join(PUBLIC_DIR, CSS_DIR)))
+
+  gulp
+    .src(path.join(SRC_DIR, BABEL_DIR, 'extra', '**', '*.js'))
+    .pipe(plumber({
+      errorHandler: notify.onError('<%= error.message %>')
+    }))
+    .pipe(gulp.dest(path.join(PUBLIC_DIR, JS_DIR)))
+})
+
 
 gulp.task('pug', () => {
   const options = {
@@ -152,6 +180,7 @@ gulp.task('pug', () => {
       return stream
     }))
 })
+
 
 gulp.task('stylus', () => {
   const options = {

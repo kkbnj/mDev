@@ -64,6 +64,7 @@ class Inview {
   }
 
   play() {
+    clearInterval(this.interval)
     this.interval = setInterval(() => {
       this.resize()
 
