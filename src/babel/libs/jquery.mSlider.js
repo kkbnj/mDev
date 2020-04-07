@@ -1,8 +1,8 @@
 /*!
- * jQuery mSlider v0.13
- * Copyright: 2017-2018 factory
+ * jQuery mSlider v0.15
+ * Copyright: 2017-2020 past inc.
  * Contributing Author: Hiroki Homma
- * Website: https://factory.kkbnj.com
+ * Website: https://pxxx.jp
  * Github: https://github.com/kkbnj
  * Require for jQuery v1.7 or above
  */
@@ -208,12 +208,14 @@ class mSlider {
   touchEventHandler($target) {
     let self = this,
         touchStart = [],
-        touchDelta = []
+        touchDelta = [],
+        swipe = false
 
     $target.on({
       'touchstart.Slider': function(e) {
         let x = (e.changedTouches ? e.changedTouches[0].pageX : e.originalEvent.changedTouches[0].pageX),
         y = (e.changedTouches ? e.changedTouches[0].pageY : e.originalEvent.changedTouches[0].pageY)
+        swipe = false
 
         touchStart = [x, y]
       },
@@ -227,6 +229,7 @@ class mSlider {
 
         if(Math.abs(touchDelta[0]) > 50 && Math.abs(touchDelta[1]) < 50) {
           e.preventDefault()
+          swipe = true
 
           if(touchDelta[0] > 100) {
             self.prev()
@@ -245,10 +248,12 @@ class mSlider {
       'touchend.Slider': function(e) {
         if(!touchDelta) return
 
-        if(touchDelta[0] > 50) {
-          self.prev()
-        } else if(touchDelta[0] < -50) {
-          self.next()
+        if(swipe) {
+          if(touchDelta[0] > 50) {
+            self.prev()
+          } else if(touchDelta[0] < -50) {
+            self.next()
+          }
         }
 
         touchStart = []
