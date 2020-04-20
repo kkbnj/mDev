@@ -36,6 +36,5 @@ $(() => {
 
   // $('.mShare').mShare()
 
-  // window.inview = new $.inview($('.inview'))
-  // window.inview.play()
+  // window.inview = new $.inview()
 })
