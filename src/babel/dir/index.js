@@ -17,6 +17,7 @@ require('../libs/jquery.inview.js')
 // require('../libs/jquery.mModal.js')
 // require('../libs/jquery.cookie.js')
 // require('../libs/jquery.mFadeIn.js')
+// require('../libs/jquery.boxFit.js')
 
 
 // import {TweenLite, Power2} from "gsap/TweenLite"
