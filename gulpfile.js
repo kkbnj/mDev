@@ -5,8 +5,8 @@ const path = require('path')
 const PORT = 3000,
       WATCH_INTERVAL = 400,
 
-      PROTOCOL = 'http',
-      SERVER_NAME = 'factory.kkbnj.com',
+      PROTOCOL = 'https',
+      SERVER_NAME = 'pxxx.jp',
 
       PUBLIC_DIR = 'public',
       INDEX_DIR = '',
@@ -57,7 +57,7 @@ const gulp = require('gulp'),
       flatmap = require('gulp-flatmap'),
       browserSync = require('browser-sync').create(),
       plumber = require('gulp-plumber'),
-      notify = require('gulp-notify'),
+      notifier = require('node-notifier'),
       cached = require('gulp-cached'),
       pug = require('gulp-pug'),
       stylus = require('gulp-stylus'),
@@ -70,6 +70,18 @@ const gulp = require('gulp'),
       convertEncoding = require('gulp-convert-encoding')
 
 
+var errorHandler = function (error) {
+  notifier.notify({
+    title: 'compile error!',
+    message: error.message,
+    // icon: path.join(__dirname, 'error.png'),
+    sound: true
+  }, function () {
+    console.log(error.message);
+  });
+};
+
+
 gulp.task('default', ['server', 'build', 'watch', 'copy'])
 
 
@@ -77,6 +89,11 @@ gulp.task('build', ['pug', 'stylus', 'webpack', 'copy'])
 
 
 gulp.task('watch', () => {
+  notifier.notify({
+    title: 'Gulp',
+    message: 'watch start!',
+  });
+
   gulp.watch(
     [
       path.join(SRC_DIR, PUG_DIR, '**', '*')
@@ -114,23 +131,37 @@ gulp.task('copy', () => {
   gulp
     .src(path.join(SRC_DIR, PUG_DIR, 'extra', '**', '*.html'))
     .pipe(plumber({
-      errorHandler: notify.onError('<%= error.message %>')
+      errorHandler: errorHandler,
     }))
     .pipe(gulp.dest(path.join(PUBLIC_DIR, INDEX_DIR)))
 
   gulp
     .src(path.join(SRC_DIR, STYLUS_DIR, 'extra', '**', '*.css'))
     .pipe(plumber({
-      errorHandler: notify.onError('<%= error.message %>')
+      errorHandler: errorHandler,
     }))
     .pipe(gulp.dest(path.join(PUBLIC_DIR, CSS_DIR)))
 
   gulp
     .src(path.join(SRC_DIR, BABEL_DIR, 'extra', '**', '*.js'))
     .pipe(plumber({
-      errorHandler: notify.onError('<%= error.message %>')
+      errorHandler: errorHandler,
     }))
     .pipe(gulp.dest(path.join(PUBLIC_DIR, JS_DIR)))
+
+  // setTimeout(() => {
+  //   gulp
+  //     .src([
+  //       INDEX_DIR + 'assets/**/*',
+  //     ])
+  //     .pipe(gulp.dest('www/app/public/assets'))
+
+  //   gulp
+  //     .src([
+  //       INDEX_DIR + 'about/index.html',
+  //     ])
+  //     .pipe(gulp.dest('www/app/public/about'))
+  // })
 })
 
 
@@ -145,7 +176,7 @@ gulp.task('pug', () => {
   gulp
     .src(path.join(SRC_DIR, PUG_DIR, 'dir', '**', '*.pug'))
     .pipe(plumber({
-      errorHandler: notify.onError('<%= error.message %>')
+      errorHandler: errorHandler,
     }))
     .pipe(pug(options))
     .pipe(gulpif(SHIFT_JIS && !OUTPUT_PATH, replace('text/html; charset=UTF-8', 'text/html; charset=Shift_JIS')))
@@ -196,7 +227,7 @@ gulp.task('stylus', () => {
   gulp
     .src(path.join(SRC_DIR, STYLUS_DIR, 'dir', '**', '*.styl'))
     .pipe(plumber({
-      errorHandler: notify.onError('<%= error.message %>')
+      errorHandler: errorHandler,
     }))
     .pipe(stylus(options))
     .pipe(gulp.dest(path.join(PUBLIC_DIR, CSS_DIR)))
@@ -225,7 +256,7 @@ gulp.task('webpack', () => {
   gulp
     .src(path.resolve(SRC_DIR, BABEL_DIR, 'dir', '**', '*.js'))
     .pipe(plumber({
-      errorHandler: notify.onError('<%= error.message %>')
+      errorHandler: errorHandler,
     }))
     .pipe(named((file) => {
       // ディレクトリを維持して出力
