@@ -15,9 +15,6 @@ const PORT = 3000,
       JS_DIR = path.join(ASSETS_DIR, 'js'),
       IMAGE_DIR = path.join(ASSETS_DIR, 'images'),
       START_DIR = path.join(INDEX_DIR, ''),
-      WP = false,
-      WP_DIR = 'www/app/public',
-      WP_THEME_DIR = path.join(WP_DIR, 'cms/wp-content/themes/template_name'),
       OUTPUT_PATH = [
         // {
         //   pug: '',
@@ -85,6 +82,11 @@ var errorHandler = function (error) {
 };
 
 
+gulp.task('default', ['server', 'build', 'watch', 'copy'])
+
+
+gulp.task('build', ['pug', 'stylus', 'webpack', 'copy'])
+
 
 gulp.task('watch', () => {
   notifier.notify({
@@ -99,7 +101,7 @@ gulp.task('watch', () => {
     {
       interval: WATCH_INTERVAL,
     },
-    gulp.task('pug')
+    ['pug']
   )
 
   gulp.watch(
@@ -110,7 +112,7 @@ gulp.task('watch', () => {
     {
       interval: WATCH_INTERVAL,
     },
-    gulp.task('stylus')
+    ['stylus'],
   )
 
   gulp.watch(
@@ -120,17 +122,7 @@ gulp.task('watch', () => {
     {
       interval: WATCH_INTERVAL,
     },
-    gulp.task('webpack')
-  )
-
-  gulp.watch(
-    [
-      path.join(PUBLIC_DIR, '**', '*'),
-    ],
-    {
-      interval: WATCH_INTERVAL,
-    },
-    ['copy']
+    ['webpack']
   )
 })
 
@@ -157,21 +149,19 @@ gulp.task('copy', () => {
     }))
     .pipe(gulp.dest(path.join(PUBLIC_DIR, JS_DIR)))
 
-  if(WP) {
-    setTimeout(() => {
-      gulp
-        .src([
-          path.join(PUBLIC_DIR, INDEX_DIR, 'assets/**/*'),
-        ])
-        .pipe(gulp.dest(path.join(WP_THEME_DIR, assets)))
+  // setTimeout(() => {
+  //   gulp
+  //     .src([
+  //       INDEX_DIR + 'assets/**/*',
+  //     ])
+  //     .pipe(gulp.dest('www/app/public/assets'))
 
-      gulp
-        .src([
-          path.join(PUBLIC_DIR, INDEX_DIR, 'about/index.html'),
-        ])
-        .pipe(gulp.dest(path.join(WP_DIR, 'about')))
-    }, 200)
-  }
+  //   gulp
+  //     .src([
+  //       INDEX_DIR + 'about/index.html',
+  //     ])
+  //     .pipe(gulp.dest('www/app/public/about'))
+  // })
 })
 
 
@@ -296,8 +286,3 @@ gulp.task('server', () => {
     }
   })
 })
-
-
-gulp.task('build', gulp.series(gulp.parallel('pug', 'stylus', 'webpack'), 'copy'))
-
-gulp.task('default', gulp.series('server', 'build', 'watch'))
