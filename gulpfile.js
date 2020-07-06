@@ -18,6 +18,9 @@ const PORT = 3000,
       WP = false,
       WP_DIR = 'www/app/public',
       WP_THEME_DIR = path.join(WP_DIR, 'cms/wp-content/themes/template_name'),
+      WP_COPY_FILES = [
+        // ['about/index.html', 'about'],
+      ],
       OUTPUT_PATH = [
         // {
         //   pug: '',
@@ -91,6 +94,9 @@ gulp.task('default', ['server', 'build', 'watch', 'copy'])
 gulp.task('build', ['pug', 'stylus', 'webpack', 'copy'])
 
 
+gulp.task('copy', ['copy_html', 'copy_css', 'copy_js', 'copy_others', 'copy_wp'])
+
+
 gulp.task('watch', () => {
   notifier.notify({
     title: 'Gulp',
@@ -130,38 +136,101 @@ gulp.task('watch', () => {
 
   gulp.watch(
     [
+      path.join(PUBLIC_DIR, '**', '*.html'),
+    ],
+    {
+      interval: WATCH_INTERVAL,
+    },
+    ['copy_html']
+  )
+
+  gulp.watch(
+    [
+      path.join(PUBLIC_DIR, '**', '*.css'),
+    ],
+    {
+      interval: WATCH_INTERVAL,
+    },
+    ['copy_css']
+  )
+
+  gulp.watch(
+    [
+      path.join(PUBLIC_DIR, '**', '*.js'),
+    ],
+    {
+      interval: WATCH_INTERVAL,
+    },
+    ['copy_js']
+  )
+
+  gulp.watch(
+    [
+      path.join(PUBLIC_DIR, '**', '*'),
+      '!**/*.html',
+      '!**/*.css',
+      '!**/*.js',
+    ],
+    {
+      interval: WATCH_INTERVAL,
+    },
+    ['copy_others']
+  )
+
+  gulp.watch(
+    [
       path.join(PUBLIC_DIR, '**', '*'),
     ],
     {
       interval: WATCH_INTERVAL,
     },
-    ['copy']
+    ['copy_wp']
   )
 })
 
 
-gulp.task('copy', () => {
+gulp.task('copy_html', () => {
   gulp
     .src(path.join(SRC_DIR, PUG_DIR, 'extra', '**', '*.html'))
     .pipe(plumber({
       errorHandler: errorHandler,
     }))
     .pipe(gulp.dest(path.join(PUBLIC_DIR, INDEX_DIR)))
+})
 
+gulp.task('copy_css', () => {
   gulp
-    .src(path.join(SRC_DIR, STYLUS_DIR, 'extra', '**', '*.css'))
+    .src(path.join(SRC_DIR, PUG_DIR, 'extra', '**', '*.css'))
     .pipe(plumber({
       errorHandler: errorHandler,
     }))
-    .pipe(gulp.dest(path.join(PUBLIC_DIR, CSS_DIR)))
+    .pipe(gulp.dest(path.join(PUBLIC_DIR, INDEX_DIR)))
+})
 
+gulp.task('copy_js', () => {
   gulp
-    .src(path.join(SRC_DIR, BABEL_DIR, 'extra', '**', '*.js'))
+    .src(path.join(SRC_DIR, PUG_DIR, 'extra', '**', '*.js'))
     .pipe(plumber({
       errorHandler: errorHandler,
     }))
-    .pipe(gulp.dest(path.join(PUBLIC_DIR, JS_DIR)))
+    .pipe(gulp.dest(path.join(PUBLIC_DIR, INDEX_DIR)))
+})
 
+gulp.task('copy_others', () => {
+  gulp
+    .src([
+      path.join(SRC_DIR, PUG_DIR, 'extra', '**', '*'),
+      '!**/*.html',
+      '!**/*.css',
+      '!**/*.js',
+    ])
+    .pipe(plumber({
+      errorHandler: errorHandler,
+    }))
+    .pipe(gulp.dest(path.join(PUBLIC_DIR, INDEX_DIR)))
+})
+
+gulp.task('copy_wp', () => {
   if(WP) {
     setTimeout(() => {
       gulp
@@ -170,11 +239,13 @@ gulp.task('copy', () => {
         ])
         .pipe(gulp.dest(path.join(WP_THEME_DIR, 'assets')))
 
-      gulp
-        .src([
-          path.join(PUBLIC_DIR, INDEX_DIR, 'about/index.html'),
-        ])
-        .pipe(gulp.dest(path.join(WP_DIR, 'about')))
+      for(let i = 0; i < WP_COPY_FILES.length; i++) {
+        gulp
+          .src([
+            path.join(PUBLIC_DIR, INDEX_DIR, WP_COPY_FILES[i][0]),
+          ])
+          .pipe(gulp.dest(path.join(WP_DIR, WP_COPY_FILES[i][1])))
+      }
     })
   }
 })
