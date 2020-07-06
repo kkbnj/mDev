@@ -1,4 +1,5 @@
 require('scroll-restoration-polyfill')
+require('babel-polyfill')
 
 window.jQuery = require('jquery')
 window.$ = window.jQuery

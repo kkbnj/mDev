@@ -15,6 +15,9 @@ const PORT = 3000,
       JS_DIR = path.join(ASSETS_DIR, 'js'),
       IMAGE_DIR = path.join(ASSETS_DIR, 'images'),
       START_DIR = path.join(INDEX_DIR, ''),
+      WP = false,
+      WP_DIR = 'www/app/public',
+      WP_THEME_DIR = path.join(WP_DIR, 'cms/wp-content/themes/template_name'),
       OUTPUT_PATH = [
         // {
         //   pug: '',
@@ -124,6 +127,16 @@ gulp.task('watch', () => {
     },
     ['webpack']
   )
+
+  gulp.watch(
+    [
+      path.join(PUBLIC_DIR, '**', '*'),
+    ],
+    {
+      interval: WATCH_INTERVAL,
+    },
+    ['copy']
+  )
 })
 
 
@@ -149,19 +162,21 @@ gulp.task('copy', () => {
     }))
     .pipe(gulp.dest(path.join(PUBLIC_DIR, JS_DIR)))
 
-  // setTimeout(() => {
-  //   gulp
-  //     .src([
-  //       INDEX_DIR + 'assets/**/*',
-  //     ])
-  //     .pipe(gulp.dest('www/app/public/assets'))
+  if(WP) {
+    setTimeout(() => {
+      gulp
+        .src([
+          path.join(PUBLIC_DIR, INDEX_DIR, 'assets/**/*'),
+        ])
+        .pipe(gulp.dest(path.join(WP_THEME_DIR, 'assets')))
 
-  //   gulp
-  //     .src([
-  //       INDEX_DIR + 'about/index.html',
-  //     ])
-  //     .pipe(gulp.dest('www/app/public/about'))
-  // })
+      gulp
+        .src([
+          path.join(PUBLIC_DIR, INDEX_DIR, 'about/index.html'),
+        ])
+        .pipe(gulp.dest(path.join(WP_DIR, 'about')))
+    })
+  }
 })
 
 

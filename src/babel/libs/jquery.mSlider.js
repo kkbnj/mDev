@@ -1,5 +1,5 @@
 /*!
- * jQuery mSlider v0.15
+ * jQuery mSlider v0.15.1
  * Copyright: 2017-2020 past inc.
  * Contributing Author: Hiroki Homma
  * Website: https://pxxx.jp
@@ -97,11 +97,18 @@ class mSlider {
               }
 
               this.$slide.eq(before).removeClass('Slider__slide--now')
+              // safari最新版のバグに対応するため、一時的にvelocity.jsへ切り替え
               this.$slide.eq(after)
                 .addClass('Slider__slide--now Slider__slide--show')
-                .css({
+                .velocity('stop').velocity({
                   opacity: 1,
+                }, {
+                  duration: this.params.duration,
+                  easing: this.params.easing,
                 })
+                // .css({
+                //   opacity: 1,
+                // })
 
               if(typeof this.params.before_change === 'function') {
                 this.params.before_change(after, before)
@@ -460,7 +467,7 @@ class mSlider {
             rigth: 0,
             bottom: 0,
             width: '100%',
-            transition: 'opacity ' + this.params.duration + 'ms ' + window.easing[this.params.easing],
+            // transition: 'opacity ' + this.params.duration + 'ms ' + window.easing[this.params.easing],
           })
           .each(function(i) {
             $(this).addClass('Slider__slide--' + (i+1))
