@@ -3,15 +3,33 @@ include /data/common
 //- mixins
 include /mixin/picture
 include /mixin/price_comma
+include /mixin/credits
 
 block data
 
 doctype
 html(lang='ja')
-  head
+  head(prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#")
     include /layout/head
 
+    .
+      <!-- Page-hiding snippet (recommended)  -->
+      <style>.async-hide { opacity: 0 !important} </style>
+      <script>(function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date;
+      h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
+      (a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c;
+      })(window,document.documentElement,'async-hide','dataLayer',500,
+      {'GTM-WBZGSJH':true});</script>
+
+      <!-- Treasure Data -->
+      <script type="text/javascript">
+        !function(t,e){if(void 0===e[t]){e[t]=function(){e[t].clients.push(this),this._init=[Array.prototype.slice.call(arguments)]},e[t].clients=[];for(var r=function(t){return function(){return this["_"+t]=this["_"+t]||[],this["_"+t].push(Array.prototype.slice.call(arguments)),this}},s=["addRecord","set","trackEvent","trackPageview","trackClicks","ready"],a=0;a<s.length;a++){var c=s[a];e[t].prototype[c]=r(c)}var n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=("https:"===document.location.protocol?"https:":"http:")+"//cdn.treasuredata.com/sdk/1.9.2/td.min.js";var i=document.getElementsByTagName("script")[0];i.parentNode.insertBefore(n,i)}}("Treasure",this);
+      </script>
+
+
   body
+    block css
+
     .wrapper
       //- include /modules/common/header
 
@@ -21,6 +39,5 @@ html(lang='ja')
 
     block modal
 
-    //- JavaScript
-    //- script(src=JS_DIR + 'common.js' type='text/javascript' charset='UTF-8')
     block script
+
