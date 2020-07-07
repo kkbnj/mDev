@@ -51,6 +51,8 @@ $(() => {
 
   // window.inview = new $.inview()
 
+  // $('.mShare').mShare()
+
   // new $.mLazy($('.mLazy'), {
   //   fps: 8,
   //   offset: () => {
