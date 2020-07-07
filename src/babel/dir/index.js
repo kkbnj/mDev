@@ -44,6 +44,9 @@ $(() => {
   // $('.mScroll').mScroll({
   //   duration: 640,
   //   easing: 'easeOutExpo',
+  //  jump: () => {
+  //    return -util.winH
+  //  },
   // })
 
   // window.inview = new $.inview()
