@@ -18,7 +18,8 @@ class ClassTemplate {
     // })
 
     // setInterval(() => {
-
+    //   this.resize()
+    //   this.scroll()
     // }, 1000)
   }
 
