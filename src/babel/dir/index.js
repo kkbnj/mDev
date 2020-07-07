@@ -39,6 +39,9 @@ $(() => {
   // $('.mScroll').mScroll({
   //   duration: 640,
   //   easing: 'easeOutExpo',
+  //  jump: () => {
+  //    return -util.winH
+  //  },
   // })
 
   // $('.mShare').mShare()
