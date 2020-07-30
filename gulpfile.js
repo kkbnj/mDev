@@ -200,20 +200,20 @@ gulp.task('copy_html', () => {
 
 gulp.task('copy_css', () => {
   gulp
-    .src(path.join(SRC_DIR, PUG_DIR, 'extra', '**', '*.css'))
+    .src(path.join(SRC_DIR, STYLUS_DIR, 'extra', '**', '*.css'))
     .pipe(plumber({
       errorHandler: errorHandler,
     }))
-    .pipe(gulp.dest(path.join(PUBLIC_DIR, INDEX_DIR)))
+    .pipe(gulp.dest(path.join(PUBLIC_DIR, CSS_DIR)))
 })
 
 gulp.task('copy_js', () => {
   gulp
-    .src(path.join(SRC_DIR, PUG_DIR, 'extra', '**', '*.js'))
+    .src(path.join(SRC_DIR, BABEL_DIR, 'extra', '**', '*.js'))
     .pipe(plumber({
       errorHandler: errorHandler,
     }))
-    .pipe(gulp.dest(path.join(PUBLIC_DIR, INDEX_DIR)))
+    .pipe(gulp.dest(path.join(PUBLIC_DIR, JS_DIR)))
 })
 
 gulp.task('copy_others', () => {

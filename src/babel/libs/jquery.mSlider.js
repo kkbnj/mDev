@@ -1,5 +1,5 @@
 /*!
- * jQuery mSlider v0.15.1
+ * jQuery mSlider v0.16.1
  * Copyright: 2017-2020 past inc.
  * Contributing Author: Hiroki Homma
  * Website: https://pxxx.jp
@@ -447,39 +447,45 @@ class mSlider {
       break;
 
       case 'fade':
-        this.$box.css({
-          zIndex: 0,
-          position: 'relative',
-        })
+        let $init = this.$slide.eq(this.now)
+        $init.imagesLoaded(() => {
+          requestAFrame(() => {
+            this.$box.css({
+              zIndex: 0,
+              height: 0,
+              paddingBottom: $init.outerHeight() / $init.outerWidth() * 100 + '%',
+            })
 
-        this.$slides.css({
-          width: '100%',
-          height: '100%',
-        })
+            this.$slides.css({
+              width: '100%',
+              height: '100%',
+            })
 
-        this.$slide
-          .css({
-            zIndex: 0,
-            display: 'none',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            rigth: 0,
-            bottom: 0,
-            width: '100%',
-            // transition: 'opacity ' + this.params.duration + 'ms ' + window.easing[this.params.easing],
-          })
-          .each(function(i) {
-            $(this).addClass('Slider__slide--' + (i+1))
-          })
-
-        if(!this.params.init_hide) {
-          this.$slide
-            .eq(this.now)
+            this.$slide
               .css({
-                display: 'block',
+                zIndex: 0,
+                display: 'none',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                rigth: 0,
+                bottom: 0,
+                width: '100%',
+                // transition: 'opacity ' + this.params.duration + 'ms ' + window.easing[this.params.easing],
               })
-        }
+              .each(function(i) {
+                $(this).addClass('Slider__slide--' + (i+1))
+              })
+
+            if(!this.params.init_hide) {
+              this.$slide
+                .eq(this.now)
+                  .css({
+                    display: 'block',
+                  })
+            }
+          })
+        })
       break;
 
       case 'slide':
@@ -751,16 +757,22 @@ class mSlider {
     // nowの初期化
     this.setNow()
 
+    this.initialize()
+
     // スライドが一つの場合、スライダー停止
     if(this.len <= 1) {
       // this.$controllers.remove()
       // this.$prev.remove()
       // this.$next.remove()
+      this.play = () => {}
+      this.pause = () => {}
+      this.autoPlay = () => {}
+      this.change = () => {}
+      this.next = () => {}
+      this.prev = () => {}
 
       return
     }
-
-    this.initialize()
 
     this.eventHandler()
 

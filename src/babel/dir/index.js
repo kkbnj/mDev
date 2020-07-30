@@ -9,6 +9,7 @@ require('jquery.easing')
 require('imagesloaded')
 
 require('../libs/requestAFrame.js')
+require('../libs/jquery.bez.js')
 // require('../libs/jquery.mScroll.js')
 // require('../libs/jquery.mShare.js')
 // require('../libs/jquery.inview.js')
@@ -39,9 +40,9 @@ $(() => {
   // $('.mScroll').mScroll({
   //   duration: 640,
   //   easing: 'easeOutExpo',
-  //  jump: () => {
-  //    return -util.winH
-  //  },
+  //   jump: () => {
+  //     return -util.winH
+  //   },
   // })
 
   // $('.mShare').mShare()
