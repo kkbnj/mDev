@@ -46,7 +46,7 @@ $(() => {
   //   duration: 640,
   //   easing: 'easeOutExpo',
   //   jump: () => {
-  //     return -util.winH
+  //     return util.winH
   //   },
   // })
 
