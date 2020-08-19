@@ -265,16 +265,16 @@ gulp.task('pug', () => {
       errorHandler: errorHandler,
     }))
     .pipe(pug(options))
-    .pipe(gulpif(SHIFT_JIS && !OUTPUT_PATH, replace('text/html; charset=UTF-8', 'text/html; charset=Shift_JIS')))
-    .pipe(gulpif(SHIFT_JIS && !OUTPUT_PATH, replace('"/>', '" />')))
-    .pipe(gulpif(SHIFT_JIS && !OUTPUT_PATH, replace('<br/>', '<br />')))
-    .pipe(gulpif(SHIFT_JIS && !OUTPUT_PATH, convertEncoding({to: 'Shift_JIS'})))
+    .pipe(gulpif(SHIFT_JIS && OUTPUT_PATH.length <= 0, replace('text/html; charset=UTF-8', 'text/html; charset=Shift_JIS')))
+    .pipe(gulpif(SHIFT_JIS && OUTPUT_PATH.length <= 0, replace('"/>', '" />')))
+    .pipe(gulpif(SHIFT_JIS && OUTPUT_PATH.length <= 0, replace('<br/>', '<br />')))
+    .pipe(gulpif(SHIFT_JIS && OUTPUT_PATH.length <= 0, convertEncoding({to: 'Shift_JIS'})))
     // .pipe(rename((path) => {
     //   path.basename += '_sjis'
     // }))
     .pipe(gulp.dest(path.join(PUBLIC_DIR, INDEX_DIR)))
     .pipe(flatmap((stream, file) => {
-      if(OUTPUT_PATH) {
+      if(OUTPUT_PATH.length > 0) {
         let pathname = file.path.split(path.join(PUBLIC_DIR, INDEX_DIR, '/'))[1]
 
         pathname = pathname.split(path.extname(pathname))[0]
