@@ -9,13 +9,13 @@ mixin credits(credits, classname)
               span.credit__name!=credit.name+'&nbsp;/&nbsp;'
               span.credit__brand!=credit.brand+'&nbsp;/&nbsp;'
               span.credit__number!=credit.id+'&nbsp;/&nbsp;'
-            span.credit__group
-              - if(price)
+            - if(price)
+              span.credit__group
                 span.credit__price
                   |¥
                   +price_comma(price)
                   |+TAX
-              span.credit__buy BUY
+                span.credit__buy BUY
 
           - if(credit.notice)
             span.credit__notice!=credit.notice
@@ -24,13 +24,15 @@ mixin credits(credits, classname)
         li.credit.disable(class=(credit.note ? 'credit--note' : ''))
           a.credit__a
             - let price = credit.price - 0
-            span.credit__name!=credit.name+'&nbsp;/&nbsp;'
-            span.credit__brand!=credit.brand+'&nbsp;/&nbsp;'
+            span.credit__group
+              span.credit__name!=credit.name+'&nbsp;/&nbsp;'
+              span.credit__brand!=credit.brand+'&nbsp;/&nbsp;'
             - if(price)
-              span.credit__price
-                |¥
-                +price_comma(price)
-                |+TAX
+              span.credit__group
+                span.credit__price
+                  |¥
+                  +price_comma(price)
+                  |+TAX
 
           - if(credit.notice)
             span.credit__notice!=credit.notice
