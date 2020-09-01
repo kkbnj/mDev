@@ -1,5 +1,5 @@
 /*!
- * jQuery mParallax v0.0.1
+ * jQuery mParallax v0.0.2
  * Copyright: 2020 past inc.
  * Contributing Author: Hiroki Homma
  * Website: https://pxxx.jp
@@ -20,7 +20,7 @@ class SetupParallax {
       ) {
         let progress = (window.util.scr + window.util.winH - this.top) / (window.util.winH + this.height)
 
-        this.$target.css({
+        this.$cont.css({
           transform: 'translate3d(0, ' + (0.5 - progress) * this.ratio + '%, 0)',
         })
       }
@@ -30,15 +30,28 @@ class SetupParallax {
   eventHandler() {
     $(window).on('resize.Parallax--' + this.index, () => {
       this.resize()
-    })
+    }).trigger('resize.Parallax--' + this.index)
 
     $(window).on('scroll.Parallax--' + this.index + ' resize.Parallax--' + this.index, () => {
       this.scroll()
-    })
+    }).trigger('scroll.Parallax--' + this.index + ' resize.Parallax--' + this.index)
   }
 
   constructor($target, ratio, index) {
     this.$target = $target
+
+    if(this.$target.is('img')) {
+      console.log('mParallax is not for img. apply for div or other wrapper element')
+
+      return
+    }
+
+    this.$cont = $('<div>').css({
+      minHeight: '100%',
+    }).html(this.$target.html())
+
+    this.$target.html(this.$cont)
+
     this.ratio = ratio
     this.index = index
 
