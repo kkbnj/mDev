@@ -52,7 +52,7 @@ $(() => {
   // new $.mLazy($('.mLazy'), {
   //   fps: 8,
   //   offset: () => {
-  //     return util.winH * 2,
+  //     return util.winH * 2
   //   },
   // })
 
