@@ -2,7 +2,14 @@ extends /layout/layout
 
 block data
   -
-    page = index
+    page = {
+      canonical: CANONICAL_ROOT,
+      page_type: 'article',
+      og_image: 'og.png',
+      title: 'ページタイトル',
+      description: 'ページディスクリプション',
+      // keywords: 'ページキーワード',
+    }
 
 block css
   link(href=CSS_DIR + 'index.css' rel='stylesheet' type='text/css')
