@@ -92,6 +92,13 @@ class mSlider {
           loop = (() => {
             requestAFrame(() => {
               if(this.$slide.eq(after).css('display') === 'none') {
+                this.$slide.eq(after)
+                  .css({
+                    opacity: 0,
+                    display: 'block',
+                    zIndex: 5,
+                  })
+
                 loop()
                 return;
               }
@@ -138,7 +145,9 @@ class mSlider {
                 })
               }, this.params.duration)
             })
-          })()
+          })
+
+          loop()
       break;
       case 'crop':
         this.$slide.eq(after)
@@ -156,6 +165,13 @@ class mSlider {
           loop = (() => {
             requestAFrame(() => {
               if(this.$slide.eq(after).css('display') === 'none') {
+                this.$slide.eq(after)
+                  .css({
+                    opacity: 0,
+                    display: 'block',
+                    zIndex: 5,
+                  })
+
                 loop()
                 return;
               }
@@ -195,7 +211,9 @@ class mSlider {
                 })
               }, this.params.duration)
             })
-          })()
+          })
+
+          loop()
       break;
       default:
 
