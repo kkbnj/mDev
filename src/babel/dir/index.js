@@ -1,6 +1,10 @@
 require('scroll-restoration-polyfill')
 require('babel-polyfill')
 
+require('lazysizes')
+require('lazysizes/plugins/unveilhooks/ls.unveilhooks')
+require('lazysizes/plugins/aspectratio/ls.aspectratio')
+
 window.jQuery = require('jquery')
 window.$ = window.jQuery
 
