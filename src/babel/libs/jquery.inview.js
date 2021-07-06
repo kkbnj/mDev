@@ -1,5 +1,5 @@
 /*!
- * jQuery Inview v2
+ * jQuery Inview v2.1
  * Copyright: 2016-2019 factory
  * Contributing Author: Hiroki Homma
  * Website: https://factory.kkbnj.com
@@ -36,15 +36,17 @@ class Inview {
 
   judge() {
     let scr = $(window).scrollTop(),
-        max = document.documentElement.scrollHeight - document.documentElement.clientHeight + this.winHeight * this.params.enter_threshold
+        enter_threshold = (typeof this.params.enter_threshold === 'function' ? this.params.enter_threshold() : this.params.enter_threshold),
+        leave_threshold = (typeof this.params.leave_threshold === 'function' ? this.params.leave_threshold() : this.params.leave_threshold),
+        max = document.documentElement.scrollHeight - document.documentElement.clientHeight + this.winHeight * enter_threshold
 
     this.params.$target.each((i) => {
       if(!this.params.infinite && this.show_flag[i]) return
 
       // enter制御
       if(
-        (max <= this.offset[i] && max <= scr + this.winHeight * this.params.enter_threshold)
-        || (this.offset[i] <= scr + this.winHeight * this.params.enter_threshold)
+        (max <= this.offset[i] && max <= scr + this.winHeight * enter_threshold)
+        || (this.offset[i] <= scr + this.winHeight * enter_threshold)
       ) {
         if(this.params.debug) console.log(1)
         if(this.show_flag[i]) return
@@ -52,7 +54,7 @@ class Inview {
         this.show_flag[i] = true
         this.params.$target.eq(i).addClass(this.params.enter_classname)
         this.params.enter_callback(this.params.$target.eq(i))
-      } else if(this.offset[i] > scr + this.winHeight * this.params.leave_threshold) {
+      } else if(this.offset[i] > scr + this.winHeight * leave_threshold) {
         if(this.params.debug) console.log(0)
         if(!this.show_flag[i]) return
 
