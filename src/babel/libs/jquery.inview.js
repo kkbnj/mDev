@@ -1,6 +1,6 @@
 /*!
- * jQuery Inview v2.1
- * Copyright: 2016-2019 factory
+ * jQuery Inview v2.2
+ * Copyright: 2016-2021 past
  * Contributing Author: Hiroki Homma
  * Website: https://factory.kkbnj.com
  * Github: https://github.com/kkbnj
@@ -27,7 +27,7 @@ class Inview {
   }
 
   adjust() {
-    this.winHeight = $(window).height()
+    this.winHeight = window.innerHeight
 
     this.params.$target.each((i) => {
       this.offset[i] = this.params.$target.eq(i).offset().top
@@ -121,7 +121,7 @@ class Inview {
       this.params = $.extend({}, this.default_params, arg1)
     }
 
-    this.winHeight = $(window).height()
+    this.winHeight = window.innerHeight
     this.offset = []
     this.show_flag = []
     this.eventHandler()
