@@ -4,9 +4,10 @@ const path = require('path')
 // START ENV VARS
 const PORT = 3000,
       WATCH_INTERVAL = 400,
+      RELOAD_DELAY = 500,
 
       PROTOCOL = 'https',
-      SERVER_NAME = 'pxxx.jp',
+      SERVER_NAME = 'past.jp',
 
       PUBLIC_DIR = 'public',
       INDEX_DIR = '',
@@ -136,7 +137,7 @@ gulp.task('watch', () => {
 
   gulp.watch(
     [
-      path.join(PUBLIC_DIR, '**', '*.html'),
+      path.join(SRC_DIR, PUG_DIR, 'extra', '**', '*.html'),
     ],
     {
       interval: WATCH_INTERVAL,
@@ -146,7 +147,7 @@ gulp.task('watch', () => {
 
   gulp.watch(
     [
-      path.join(PUBLIC_DIR, '**', '*.css'),
+      path.join(SRC_DIR, STYLUS_DIR, 'extra', '**', '*.css'),
     ],
     {
       interval: WATCH_INTERVAL,
@@ -156,7 +157,7 @@ gulp.task('watch', () => {
 
   gulp.watch(
     [
-      path.join(PUBLIC_DIR, '**', '*.js'),
+      path.join(SRC_DIR, BABEL_DIR, 'extra', '**', '*.js'),
     ],
     {
       interval: WATCH_INTERVAL,
@@ -166,7 +167,7 @@ gulp.task('watch', () => {
 
   gulp.watch(
     [
-      path.join(PUBLIC_DIR, '**', '*'),
+      path.join(SRC_DIR, PUG_DIR, 'extra', '**', '*'),
       '!**/*.html',
       '!**/*.css',
       '!**/*.js',
@@ -365,7 +366,7 @@ gulp.task('server', () => {
     logLevel: 'silent',
     notify: false,
     scrollProportionally: false,
-    reloadDelay: 200,
+    reloadDelay: RELOAD_DELAY,
     startPath: (START_DIR ? '/' + START_DIR + '/' : ''),
     server: {
       baseDir: PUBLIC_DIR,

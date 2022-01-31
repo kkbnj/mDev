@@ -2,7 +2,7 @@
  * jQuery mSlider v0.16.1
  * Copyright: 2017-2020 past inc.
  * Contributing Author: Hiroki Homma
- * Website: https://pxxx.jp
+ * Website: https://past.jp
  * Github: https://github.com/kkbnj
  * Require for jQuery v1.7 or above
  */
