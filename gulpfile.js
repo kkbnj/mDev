@@ -88,287 +88,317 @@ var errorHandler = function (error) {
 };
 
 
-gulp.task('default', ['server', 'build', 'watch', 'copy'])
-
-
-gulp.task('build', ['pug', 'stylus', 'webpack', 'copy'])
-
-
-gulp.task('copy', ['copy_html', 'copy_css', 'copy_js', 'copy_others', 'copy_wp'])
-
-
-gulp.task('watch', () => {
+gulp.task("watch", () => {
   notifier.notify({
-    title: 'Gulp',
-    message: 'watch start!',
+    title: "Gulp",
+    message: "watch start!",
   });
 
   gulp.watch(
-    [
-      path.join(SRC_DIR, PUG_DIR, '**', '*')
-    ],
+    [path.join(SRC_DIR, PUG_DIR, "**", "*")],
     {
       interval: WATCH_INTERVAL,
     },
-    ['pug']
-  )
+    gulp.task("pug")
+  );
 
   gulp.watch(
     [
-      path.join(SRC_DIR, STYLUS_DIR, '**', '*.styl'),
-      path.join(SRC_DIR, STYLUS_DIR, '**', '*.css'),
+      path.join(SRC_DIR, STYLUS_DIR, "**", "*.styl"),
+      path.join(SRC_DIR, STYLUS_DIR, "**", "*.css"),
     ],
     {
       interval: WATCH_INTERVAL,
     },
-    ['stylus'],
-  )
+    gulp.task("stylus")
+  );
 
   gulp.watch(
-    [
-      path.join(SRC_DIR, BABEL_DIR, '**', '*.js'),
-    ],
+    [path.join(SRC_DIR, BABEL_DIR, "**", "*.js")],
     {
       interval: WATCH_INTERVAL,
     },
-    ['webpack']
-  )
+    gulp.task("webpack")
+  );
 
   gulp.watch(
-    [
-      path.join(PUBLIC_DIR, '**', '*.html'),
-    ],
+    [path.join(PUBLIC_DIR, "**", "*.html")],
     {
       interval: WATCH_INTERVAL,
     },
-    ['copy_html']
-  )
+    gulp.task("copy_html")
+  );
 
   gulp.watch(
-    [
-      path.join(PUBLIC_DIR, '**', '*.css'),
-    ],
+    [path.join(PUBLIC_DIR, "**", "*.css")],
     {
       interval: WATCH_INTERVAL,
     },
-    ['copy_css']
-  )
+    gulp.task("copy_css")
+  );
 
   gulp.watch(
-    [
-      path.join(PUBLIC_DIR, '**', '*.js'),
-    ],
+    [path.join(PUBLIC_DIR, "**", "*.js")],
     {
       interval: WATCH_INTERVAL,
     },
-    ['copy_js']
-  )
+    gulp.task("copy_js")
+  );
 
   gulp.watch(
-    [
-      path.join(PUBLIC_DIR, '**', '*'),
-      '!**/*.html',
-      '!**/*.css',
-      '!**/*.js',
-    ],
+    [path.join(PUBLIC_DIR, "**", "*"), "!**/*.html", "!**/*.css", "!**/*.js"],
     {
       interval: WATCH_INTERVAL,
     },
-    ['copy_others']
-  )
+    gulp.task("copy_others")
+  );
 
   gulp.watch(
-    [
-      path.join(PUBLIC_DIR, '**', '*'),
-    ],
+    [path.join(PUBLIC_DIR, "**", "*")],
     {
       interval: WATCH_INTERVAL,
     },
-    ['copy_wp']
-  )
-})
+    gulp.task("copy_wp")
+  );
+});
 
 
-gulp.task('copy_html', () => {
+gulp.task("copy_html", () => {
+  return gulp
+    .src(path.join(SRC_DIR, PUG_DIR, "extra", "**", "*.html"))
+    .pipe(
+      plumber({
+        errorHandler: errorHandler,
+      })
+    )
+    .pipe(gulp.dest(path.join(PUBLIC_DIR, INDEX_DIR)));
+});
+
+gulp.task("copy_css", () => {
+  return gulp
+    .src(path.join(SRC_DIR, STYLUS_DIR, "extra", "**", "*.css"))
+    .pipe(
+      plumber({
+        errorHandler: errorHandler,
+      })
+    )
+    .pipe(gulp.dest(path.join(PUBLIC_DIR, CSS_DIR)));
+});
+
+gulp.task("copy_js", () => {
   gulp
-    .src(path.join(SRC_DIR, PUG_DIR, 'extra', '**', '*.html'))
-    .pipe(plumber({
-      errorHandler: errorHandler,
-    }))
-    .pipe(gulp.dest(path.join(PUBLIC_DIR, INDEX_DIR)))
-})
+    .src(path.join(SRC_DIR, BABEL_DIR, "extra", "**", "*.js"))
+    .pipe(
+      plumber({
+        errorHandler: errorHandler,
+      })
+    )
+    .pipe(gulp.dest(path.join(PUBLIC_DIR, JS_DIR)));
+});
 
-gulp.task('copy_css', () => {
-  gulp
-    .src(path.join(SRC_DIR, STYLUS_DIR, 'extra', '**', '*.css'))
-    .pipe(plumber({
-      errorHandler: errorHandler,
-    }))
-    .pipe(gulp.dest(path.join(PUBLIC_DIR, CSS_DIR)))
-})
-
-gulp.task('copy_js', () => {
-  gulp
-    .src(path.join(SRC_DIR, BABEL_DIR, 'extra', '**', '*.js'))
-    .pipe(plumber({
-      errorHandler: errorHandler,
-    }))
-    .pipe(gulp.dest(path.join(PUBLIC_DIR, JS_DIR)))
-})
-
-gulp.task('copy_others', () => {
-  gulp
+gulp.task("copy_others", () => {
+  return gulp
     .src([
-      path.join(SRC_DIR, PUG_DIR, 'extra', '**', '*'),
-      '!**/*.html',
-      '!**/*.css',
-      '!**/*.js',
+      path.join(SRC_DIR, PUG_DIR, "extra", "**", "*"),
+      "!**/*.html",
+      "!**/*.css",
+      "!**/*.js",
     ])
-    .pipe(plumber({
-      errorHandler: errorHandler,
-    }))
-    .pipe(gulp.dest(path.join(PUBLIC_DIR, INDEX_DIR)))
-})
+    .pipe(
+      plumber({
+        errorHandler: errorHandler,
+      })
+    )
+    .pipe(gulp.dest(path.join(PUBLIC_DIR, INDEX_DIR)));
+});
 
-gulp.task('copy_wp', () => {
-  if(WP) {
+gulp.task("copy_wp", () => {
+  if (WP) {
     setTimeout(() => {
       gulp
-        .src([
-          path.join(PUBLIC_DIR, INDEX_DIR, 'assets/**/*'),
-        ])
-        .pipe(gulp.dest(path.join(WP_THEME_DIR, 'assets')))
+        .src([path.join(PUBLIC_DIR, INDEX_DIR, "assets/**/*")])
+        .pipe(gulp.dest(path.join(WP_THEME_DIR, "assets")));
 
-      for(let i = 0; i < WP_COPY_FILES.length; i++) {
-        gulp
-          .src([
-            path.join(PUBLIC_DIR, INDEX_DIR, WP_COPY_FILES[i][0]),
-          ])
-          .pipe(gulp.dest(path.join(WP_DIR, WP_COPY_FILES[i][1])))
+      for (let i = 0; i < WP_COPY_FILES.length; i++) {
+        return gulp
+          .src([path.join(PUBLIC_DIR, INDEX_DIR, WP_COPY_FILES[i][0])])
+          .pipe(gulp.dest(path.join(WP_DIR, WP_COPY_FILES[i][1])));
       }
-    })
+    });
   }
-})
+});
 
-
-gulp.task('pug', () => {
+gulp.task("pug", () => {
   const options = {
     basedir: path.join(SRC_DIR, PUG_DIR),
-    doctype: 'html',
+    doctype: "html",
     pretty: !HTML_MINIFY,
     locals: COMMON_VARS,
-  }
+  };
 
-  gulp
-    .src(path.join(SRC_DIR, PUG_DIR, 'dir', '**', '*.pug'))
-    .pipe(plumber({
-      errorHandler: errorHandler,
-    }))
-    .pipe(pug(options))
-    .pipe(gulpif(SHIFT_JIS && OUTPUT_PATH.length <= 0, replace('text/html; charset=UTF-8', 'text/html; charset=Shift_JIS')))
-    .pipe(gulpif(SHIFT_JIS && OUTPUT_PATH.length <= 0, replace('"/>', '" />')))
-    .pipe(gulpif(SHIFT_JIS && OUTPUT_PATH.length <= 0, replace('<br/>', '<br />')))
-    .pipe(gulpif(SHIFT_JIS && OUTPUT_PATH.length <= 0, convertEncoding({to: 'Shift_JIS'})))
-    // .pipe(rename((path) => {
-    //   path.basename += '_sjis'
-    // }))
-    .pipe(gulp.dest(path.join(PUBLIC_DIR, INDEX_DIR)))
-    .pipe(flatmap((stream, file) => {
-      if(OUTPUT_PATH.length > 0) {
-        let pathname = file.path.split(path.join(PUBLIC_DIR, INDEX_DIR, '/'))[1]
+  return (
+    gulp
+      .src(path.join(SRC_DIR, PUG_DIR, "dir", "**", "*.pug"))
+      .pipe(
+        plumber({
+          errorHandler: errorHandler,
+        })
+      )
+      .pipe(pug(options))
+      .pipe(
+        gulpif(
+          SHIFT_JIS && OUTPUT_PATH.length <= 0,
+          replace("text/html; charset=UTF-8", "text/html; charset=Shift_JIS")
+        )
+      )
+      .pipe(
+        gulpif(SHIFT_JIS && OUTPUT_PATH.length <= 0, replace('"/>', '" />'))
+      )
+      .pipe(
+        gulpif(SHIFT_JIS && OUTPUT_PATH.length <= 0, replace("<br/>", "<br />"))
+      )
+      .pipe(
+        gulpif(
+          SHIFT_JIS && OUTPUT_PATH.length <= 0,
+          convertEncoding({ to: "Shift_JIS" })
+        )
+      )
+      // .pipe(rename((path) => {
+      //   path.basename += '_sjis'
+      // }))
+      .pipe(gulp.dest(path.join(PUBLIC_DIR, INDEX_DIR)))
+      .pipe(
+        flatmap((stream, file) => {
+          if (OUTPUT_PATH.length > 0) {
+            let pathname = file.path.split(
+              path.join(PUBLIC_DIR, INDEX_DIR, "/")
+            )[1];
 
-        pathname = pathname.split(path.extname(pathname))[0]
+            pathname = pathname.split(path.extname(pathname))[0];
 
-        for(let i = 0; i < OUTPUT_PATH.length; i++) {
-          if(OUTPUT_PATH[i].pug === pathname) {
-            gulp.src(file.path)
-              .pipe(gulpif(SHIFT_JIS, replace('text/html; charset=UTF-8', 'text/html; charset=Shift_JIS')))
-              .pipe(gulpif(SHIFT_JIS, replace('"/>', '" />')))
-              .pipe(gulpif(SHIFT_JIS, replace('<br/>', '<br />')))
-              .pipe(gulpif(SHIFT_JIS, convertEncoding({to: 'Shift_JIS'})))
-              .pipe(rename((path) => {
-                path.basename = OUTPUT_PATH[i].filename
-              }))
-              .pipe(gulp.dest(path.join(PUBLIC_DIR, OUTPUT_PATH[i].dirname)))
+            for (let i = 0; i < OUTPUT_PATH.length; i++) {
+              if (OUTPUT_PATH[i].pug === pathname) {
+                gulp
+                  .src(file.path)
+                  .pipe(
+                    gulpif(
+                      SHIFT_JIS,
+                      replace(
+                        "text/html; charset=UTF-8",
+                        "text/html; charset=Shift_JIS"
+                      )
+                    )
+                  )
+                  .pipe(gulpif(SHIFT_JIS, replace('"/>', '" />')))
+                  .pipe(gulpif(SHIFT_JIS, replace("<br/>", "<br />")))
+                  .pipe(gulpif(SHIFT_JIS, convertEncoding({ to: "Shift_JIS" })))
+                  .pipe(
+                    rename((path) => {
+                      path.basename = OUTPUT_PATH[i].filename;
+                    })
+                  )
+                  .pipe(
+                    gulp.dest(path.join(PUBLIC_DIR, OUTPUT_PATH[i].dirname))
+                  );
+              }
+            }
           }
-        }
-      }
 
-      return stream
-    }))
-})
+          return stream;
+        })
+      )
+  );
+});
 
-
-gulp.task('stylus', () => {
+gulp.task("stylus", () => {
   const options = {
-    'include css': true,
+    "include css": true,
     compress: CSS_MINIFY,
-    import: ['nib'],
-    use: [
-      nib(),
-    ],
+    import: ["nib"],
+    use: [nib()],
     rawDefine: COMMON_VARS,
-  }
+  };
 
-  gulp
-    .src(path.join(SRC_DIR, STYLUS_DIR, 'dir', '**', '*.styl'))
-    .pipe(plumber({
-      errorHandler: errorHandler,
-    }))
+  return gulp
+    .src(path.join(SRC_DIR, STYLUS_DIR, "dir", "**", "*.styl"))
+    .pipe(
+      plumber({
+        errorHandler: errorHandler,
+      })
+    )
     .pipe(stylus(options))
-    .pipe(gulp.dest(path.join(PUBLIC_DIR, CSS_DIR)))
-})
+    .pipe(gulp.dest(path.join(PUBLIC_DIR, CSS_DIR)));
+});
 
-
-gulp.task('webpack', () => {
+gulp.task("webpack", () => {
   const options = {
     watch: false,
     cache: true,
-    mode: (JS_MINIFY ? 'production' : 'development'),
+    mode: JS_MINIFY ? "production" : "development",
     module: {
       rules: [
         {
           test: /\.js$/,
-          loader: 'babel-loader',
+          loader: "babel-loader",
           query: {
             cacheDirectory: true,
-            presets: ['env'],
-          }
-        }
-      ]
-    }
-  }
+            presets: ["env"],
+          },
+        },
+      ],
+    },
+  };
 
-  gulp
-    .src(path.resolve(SRC_DIR, BABEL_DIR, 'dir', '**', '*.js'))
-    .pipe(plumber({
-      errorHandler: errorHandler,
-    }))
-    .pipe(named((file) => {
-      // ディレクトリを維持して出力
-      let dirname = path.relative(file.base, path.dirname(file.path)),
-          filename = path.basename(file.path, path.extname(file.path))
+  return gulp
+    .src(path.resolve(SRC_DIR, BABEL_DIR, "dir", "**", "*.js"))
+    .pipe(
+      plumber({
+        errorHandler: errorHandler,
+      })
+    )
+    .pipe(
+      named((file) => {
+        // ディレクトリを維持して出力
+        let dirname = path.relative(file.base, path.dirname(file.path)),
+          filename = path.basename(file.path, path.extname(file.path));
 
-      return path.join(dirname, filename)
-    }))
+        return path.join(dirname, filename);
+      })
+    )
     .pipe(gulpWebpack(options, webpack))
-    .pipe(gulp.dest(path.resolve(PUBLIC_DIR, JS_DIR)))
-})
+    .pipe(gulp.dest(path.resolve(PUBLIC_DIR, JS_DIR)));
+});
 
-
-gulp.task('server', () => {
-  browserSync.init({
-    files: path.join(PUBLIC_DIR, '**', '*'),
+gulp.task("server", () => {
+  return browserSync.init({
+    files: path.join(PUBLIC_DIR, "**", "*"),
 
     port: PORT,
-    https: (PROTOCOL === 'https' ? true : false),
-    logLevel: 'silent',
+    https: PROTOCOL === "https" ? true : false,
+    logLevel: "silent",
     notify: false,
     scrollProportionally: false,
-    reloadDelay: 200,
-    startPath: (START_DIR ? '/' + START_DIR + '/' : ''),
+    reloadDelay: RELOAD_DELAY,
+    startPath: START_DIR ? "/" + START_DIR + "/" : "",
     server: {
       baseDir: PUBLIC_DIR,
-    }
-  })
-})
+    },
+  });
+});
+
+gulp.task(
+  "copy",
+  gulp.series(
+    gulp.parallel("copy_html", "copy_css", "copy_js", "copy_others", "copy_wp")
+  )
+);
+
+gulp.task(
+  "build",
+  gulp.series(gulp.parallel("pug", "stylus", "webpack", "copy"))
+);
+
+gulp.task(
+  "default",
+  gulp.series(gulp.parallel("server", "build", "watch", "copy"))
+);
