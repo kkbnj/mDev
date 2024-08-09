@@ -9,7 +9,7 @@ window.jQuery = require('jquery')
 window.$ = window.jQuery
 
 require('jquery.easing')
-require('velocity-animate')
+// require('velocity-animate')
 require('imagesloaded')
 
 require('../libs/requestAFrame.js')
@@ -19,7 +19,7 @@ require('../libs/jquery.bez.js')
 // require('../libs/jquery.inview.js')
 // require('../libs/jquery.mLazy.js')
 // require('../libs/jquery.mScrollManager.js')
-require('../libs/jquery.mSlider.js')
+// require('../libs/jquery.mSlider.js')
 // require('../libs/jquery.mParallax.js')
 // require('../libs/jquery.mModal.js')
 // require('../libs/jquery.cookie.js') // use LocalStorage
@@ -60,36 +60,36 @@ $(() => {
   //   },
   // })
 
-  new $.mSlider({
-    // 要素系
-    $slider: $('.Slider'),
+  // new $.mSlider({
+  //   // 要素系
+  //   $slider: $('.Slider'),
 
-    // アニメーション系
-    type: 'fade',
-    duration: 480,
-    easing: 'easeOutQuad',
-    crop_init: 'left',
+  //   // アニメーション系
+  //   type: 'slide',
+  //   duration: 240,
+  //   easing: 'easeInOutQuad',
+  //   crop_init: 'left',
 
-    // 操作系
-    swipe: true,
-    click_next: true,
-    direct: false,
-    controller: false,
+  //   // 操作系
+  //   swipe: true,
+  //   click_next: true,
+  //   direct: false,
+  //   controller: false,
 
-    // 表示系
-    init: 0,
-    init_hide: false,
-    visible_len: 1,
+  //   // 表示系
+  //   init: 0,
+  //   init_hide: false,
+  //   visible_len: 1,
 
-    // 自動再生系
-    autoplay: true,
-    autoplay_delay: false,
-    autoplay_interval: 5200,
+  //   // 自動再生系
+  //   autoplay: true,
+  //   autoplay_delay: false,
+  //   autoplay_interval: 5200,
 
-    // コールバック
-    before_change: function() {},
-    after_change: function() {},
-  })
+  //   // コールバック
+  //   before_change: function() {},
+  //   after_change: function() {},
+  // })
 
   // $.mModal({
   //   type: 'fade',

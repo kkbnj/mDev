@@ -570,6 +570,7 @@ class mSlider {
 
   checkSlider() {
     if(!this.params.$slider[0]) {
+      console.error('$slider element is not exist.')
       return false
     }
 
