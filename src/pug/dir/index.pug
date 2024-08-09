@@ -18,7 +18,368 @@ block script
   script(src=JS_DIR + 'index.js' type='text/javascript' charset='UTF-8')
 
 block content
-  section
-    |content
+  //- .header.header--fixed
+  .header
+    h1.header__left .header__left
+      //- img.header__logo(src=IMAGE_DIR+'logo.svg' alt='')
+
+    p.header__center.pc
+      |.header
+      br
+      |__center
+      //- img.header__logo(src=IMAGE_DIR+'logo.svg' alt='')
+
+    p.header__right.pc .header__right .header__right .header__right
+
+  .header
+    .header__left.pc .header__left
+    .header__center.header__center--absolute
+      |.header
+      br
+      |__center
+    .header__right.pc .header__right .header__right .header__right
+
+  .links
+    p.links__title .links
+
+    ul.links__list
+      li.links__item
+        a.links__itemA(href='' target='_blank') link1
+      li.links__item
+        a.links__itemA(href='' target='_blank') link1
+      li.links__item
+        a.links__itemA(href='' target='_blank') link1
+      li.links__item
+        a.links__itemA(href='' target='_blank') link1
+
+  ul.creditList
+    li.creditItem
+      p.creditItem__note .creditItem__note
+
+    li.creditItem
+      p.creditItem__cont
+        a.creditItem__a(href='' target='_blank')
+          span.creditItem__txt T-SHIRTS / STUDIO NICHOLSON
+          span.creditItem__txt ¥9,800(inc. tax) / 3458193413
+          span.creditItem__buy BUY
+
+    li.creditItem
+      p.creditItem__note &nbsp;
+
+    li.creditItem.creditItem--disable
+      p.creditItem__note .creditItem__note
+
+      p.creditItem__cont.creditItem__cont--buyInline
+        a.creditItem__a(href='' target='_blank')
+          span.creditItem__txt T-SHIRTS / STUDIO NICHOLSON
+          span.creditItem__txt ¥9,800(inc. tax) / 3458193413
+          span.creditItem__buy BUY
+
+    li.creditItem
+      p.creditItem__cont.creditItem__cont--buyRight
+        a.creditItem__a(href='' target='_blank')
+          span.creditItem__txt T-SHIRTS / STUDIO NICHOLSON
+          span.creditItem__txt ¥9,800(inc. tax) / 3458193413
+          span.creditItem__buy BUY
+
+  .iconList
+    p.iconList__title .iconList
+    ul.iconList__list
+      li.iconList__item
+        a.iconList__itemA(href='' target='_blank')
+          img.iconList__itemImg(src=IMAGE_DIR+'fb.svg' alt='Facebook')
+      li.iconList__item
+        a.iconList__itemA(href='' target='_blank')
+          img.iconList__itemImg(src=IMAGE_DIR+'tw.svg' alt='X')
+      li.iconList__item
+        a.iconList__itemA(href='' target='_blank')
+          img.iconList__itemImg(src=IMAGE_DIR+'insta.svg' alt='Instagram')
+      li.iconList__item
+        a.iconList__itemA(href='' target='_blank')
+          img.iconList__itemImg(src=IMAGE_DIR+'line.svg' alt='LINE')
+
+  .button
+    a.button__a(href='' target='_blank')
+      span.button__txt .button
+
+  .button.button--arrowTop
+    a.button__a(href='' target='_blank')
+      span.button__txt .button
+
+  .button.button--arrowBottom
+    a.button__a(href='' target='_blank')
+      span.button__txt .button
+
+  .button.button--arrowLeft
+    a.button__a(href='' target='_blank')
+      span.button__txt .button
+
+  .button.button--arrowRight
+    a.button__a(href='' target='_blank')
+      span.button__txt .button
+
+  //- .tickerText
+    .tickerText__wrap
+      p.tickerText__txt tickerText
+
+  //- .tickerImage
+    .tickerText__wrap
+      .tickerText__cont
+        img(src=IMAGE_DIR+'' alt='')
+
+  //- .slider.Slider
+    .slider__box.Slider__box
+      ul.slider__slides.Slider__slides
+        li.slider__slide.Slider__slide
+          //- img(src=IMAGE_DIR+'' alt='')
+          img(src='https://placehold.jp/900' alt='')
+        li.slider__slide
+          //- img(src=IMAGE_DIR+'' alt='')
+          img(src='https://placehold.jp/090' alt='')
+        li.slider__slide
+          //- img(src=IMAGE_DIR+'' alt='')
+          img(src='https://placehold.jp/009' alt='')
+        li.slider__slide
+          //- img(src=IMAGE_DIR+'' alt='')
+          img(src='https://placehold.jp/990' alt='')
+
+  //- .wysiwyg
+
+  .looks
+    //- 写真1枚、クレジット1つ
+    .look
+      .look__box
+        p.look__num 01
+
+        .look__cont
+          .look__ph
+            //- img(src=IMAGE_DIR+'' alt='')
+            img.look__img(src='https://placehold.jp/900/ccc/720x1028.png?' alt='' loading='lazy')
+
+          ul.creditList
+            - for(let i = 0; i < 5; i++)
+              li.creditItem
+                p.creditItem__cont.creditItem__cont--buyInline
+                  a.creditItem__a(href='' target='_blank')
+                    span.creditItem__txt T-SHIRTS / STUDIO NICHOLSON / ¥9,800(inc. tax) / 3458193413
+                    span.creditItem__buy BUY
+
+    //- 写真1枚、クレジット1つ、クレジット左下
+    .look
+      .look__box.look__box--creditLeft.look__box--creditBottom
+        p.look__num 02
+
+        .look__cont
+          .look__ph
+            //- img(src=IMAGE_DIR+'' alt='')
+            img.look__img(src='https://placehold.jp/900/ccc/720x1028.png?' alt='' loading='lazy')
+
+          ul.creditList
+            - for(let i = 0; i < 5; i++)
+              li.creditItem
+                p.creditItem__cont.creditItem__cont--buyInline
+                  a.creditItem__a(href='' target='_blank')
+                    span.creditItem__txt T-SHIRTS / STUDIO NICHOLSON / ¥9,800(inc. tax) / 3458193413
+                    span.creditItem__buy BUY
+
+    //- 写真1枚、クレジット1つ、クレジット右中央
+    .look
+      .look__box.look__box--creditRight.look__box--creditCenter
+        p.look__num 03
+
+        .look__cont
+          .look__ph
+            //- img(src=IMAGE_DIR+'' alt='')
+            img.look__img(src='https://placehold.jp/900/ccc/720x1028.png?' alt='' loading='lazy')
+
+          ul.creditList
+            - for(let i = 0; i < 5; i++)
+              li.creditItem
+                p.creditItem__cont.creditItem__cont--buyInline
+                  a.creditItem__a(href='' target='_blank')
+                    span.creditItem__txt T-SHIRTS / STUDIO NICHOLSON / ¥9,800(inc. tax) / 3458193413
+                    span.creditItem__buy BUY
+
+    //- 写真2枚、クレジット2つ
+    .look
+      .look__box
+        p.look__num 04
+
+        .look__cont
+          .look__ph
+            //- img(src=IMAGE_DIR+'' alt='')
+            img.look__img(src='https://placehold.jp/900/ccc/720x1028.png?' alt='' loading='lazy')
+
+          ul.creditList
+            - for(let i = 0; i < 5; i++)
+              li.creditItem
+                p.creditItem__cont.creditItem__cont--buyInline
+                  a.creditItem__a(href='' target='_blank')
+                    span.creditItem__txt T-SHIRTS / STUDIO NICHOLSON / ¥9,800(inc. tax) / 3458193413
+                    span.creditItem__buy BUY
+
+      .look__box
+        p.look__num 05
+
+        .look__cont
+          .look__ph
+            //- img(src=IMAGE_DIR+'' alt='')
+            img.look__img(src='https://placehold.jp/900/ccc/720x1028.png?' alt='' loading='lazy')
+
+          ul.creditList
+            - for(let i = 0; i < 5; i++)
+              li.creditItem
+                p.creditItem__cont.creditItem__cont--buyInline
+                  a.creditItem__a(href='' target='_blank')
+                    span.creditItem__txt T-SHIRTS / STUDIO NICHOLSON / ¥9,800(inc. tax) / 3458193413
+                    span.creditItem__buy BUY
+
+    //- 写真2枚、クレジット2つ、写真小
+    .look.look--center
+      .look__box.look__box--small
+        p.look__num 06
+
+        .look__cont
+          .look__ph
+            //- img(src=IMAGE_DIR+'' alt='')
+            img.look__img(src='https://placehold.jp/900/ccc/720x1028.png?' alt='' loading='lazy')
+
+          ul.creditList
+            - for(let i = 0; i < 5; i++)
+              li.creditItem
+                p.creditItem__cont.creditItem__cont--buyInline
+                  a.creditItem__a(href='' target='_blank')
+                    span.creditItem__txt T-SHIRTS / STUDIO NICHOLSON / ¥9,800(inc. tax) / 3458193413
+                    span.creditItem__buy BUY
+
+      .look__box
+        p.look__num 07
+
+        .look__cont
+          .look__ph
+            //- img(src=IMAGE_DIR+'' alt='')
+            img.look__img(src='https://placehold.jp/900/ccc/720x1028.png?' alt='' loading='lazy')
+
+          ul.creditList
+            - for(let i = 0; i < 5; i++)
+              li.creditItem
+                p.creditItem__cont.creditItem__cont--buyInline
+                  a.creditItem__a(href='' target='_blank')
+                    span.creditItem__txt T-SHIRTS / STUDIO NICHOLSON / ¥9,800(inc. tax) / 3458193413
+                    span.creditItem__buy BUY
+
+    //- 写真2枚、クレジット2つ、写真大
+    .look.look--center
+      .look__box.look__box--large
+        p.look__num 08
+
+        .look__cont
+          .look__ph
+            //- img(src=IMAGE_DIR+'' alt='')
+            img.look__img(src='https://placehold.jp/900/ccc/720x1028.png?' alt='' loading='lazy')
+
+          ul.creditList
+            - for(let i = 0; i < 5; i++)
+              li.creditItem
+                p.creditItem__cont.creditItem__cont--buyInline
+                  a.creditItem__a(href='' target='_blank')
+                    span.creditItem__txt T-SHIRTS / STUDIO NICHOLSON / ¥9,800(inc. tax) / 3458193413
+                    span.creditItem__buy BUY
+
+      .look__box
+        p.look__num 09
+
+        .look__cont
+          .look__ph
+            //- img(src=IMAGE_DIR+'' alt='')
+            img.look__img(src='https://placehold.jp/900/ccc/720x1028.png?' alt='' loading='lazy')
+
+          ul.creditList
+            - for(let i = 0; i < 5; i++)
+              li.creditItem
+                p.creditItem__cont.creditItem__cont--buyInline
+                  a.creditItem__a(href='' target='_blank')
+                    span.creditItem__txt T-SHIRTS / STUDIO NICHOLSON / ¥9,800(inc. tax) / 3458193413
+                    span.creditItem__buy BUY
+
+    //- 写真3枚、クレジット3つ
+    .look.look--center
+      .look__box.look__box--large
+        p.look__num 10
+
+        .look__cont
+          .look__ph
+            //- img(src=IMAGE_DIR+'' alt='')
+            img.look__img(src='https://placehold.jp/900/ccc/720x1028.png?' alt='' loading='lazy')
+
+          ul.creditList
+            - for(let i = 0; i < 5; i++)
+              li.creditItem
+                p.creditItem__cont.creditItem__cont--buyInline
+                  a.creditItem__a(href='' target='_blank')
+                    span.creditItem__txt T-SHIRTS / STUDIO NICHOLSON / ¥9,800(inc. tax) / 3458193413
+                    span.creditItem__buy BUY
+
+      .look__box
+        p.look__num 11
+
+        .look__cont
+          .look__ph
+            //- img(src=IMAGE_DIR+'' alt='')
+            img.look__img(src='https://placehold.jp/900/ccc/720x1028.png?' alt='' loading='lazy')
+
+          ul.creditList
+            - for(let i = 0; i < 5; i++)
+              li.creditItem
+                p.creditItem__cont.creditItem__cont--buyInline
+                  a.creditItem__a(href='' target='_blank')
+                    span.creditItem__txt T-SHIRTS / STUDIO NICHOLSON / ¥9,800(inc. tax) / 3458193413
+                    span.creditItem__buy BUY
+
+      .look__box
+        p.look__num 12
+
+        .look__cont
+          .look__ph
+            //- img(src=IMAGE_DIR+'' alt='')
+            img.look__img(src='https://placehold.jp/900/ccc/720x1028.png?' alt='' loading='lazy')
+
+          ul.creditList
+            - for(let i = 0; i < 5; i++)
+              li.creditItem
+                p.creditItem__cont.creditItem__cont--buyInline
+                  a.creditItem__a(href='' target='_blank')
+                    span.creditItem__txt T-SHIRTS / STUDIO NICHOLSON / ¥9,800(inc. tax) / 3458193413
+                    span.creditItem__buy BUY
+
+    //- 写真3枚、クレジット1つ
+    .look.look--center
+      .look__box.look__box--small
+        .look__cont
+          .look__ph
+            //- img(src=IMAGE_DIR+'' alt='')
+            img.look__img(src='https://placehold.jp/900/ccc/720x1028.png?' alt='' loading='lazy')
+
+      .look__box.look__box--small
+        .look__cont
+          ul.creditList
+            - for(let i = 0; i < 5; i++)
+              li.creditItem
+                p.creditItem__cont.creditItem__cont--buyInline
+                  a.creditItem__a(href='' target='_blank')
+                    span.creditItem__txt T-SHIRTS / STUDIO NICHOLSON / ¥9,800(inc. tax) / 3458193413
+                    span.creditItem__buy BUY
+
+      .look__box.look__box--large
+        p.look__num 13
+
+        .look__cont
+          .look__ph
+            //- img(src=IMAGE_DIR+'' alt='')
+            img.look__img(src='https://placehold.jp/900/ccc/720x1028.png?' alt='' loading='lazy')
+
+
+
+
 
 block modal
