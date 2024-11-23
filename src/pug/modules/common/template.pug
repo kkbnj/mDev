@@ -1,0 +1,49 @@
+.
+  <!DOCTYPE html>
+  <html
+    lang="ja"
+    xmlns:m="http://mayaa.seasar.org"
+    m:extends="/components/layouts/layout-free/layout-free.html"
+    class="store_${storeId} areatype_${area.areaType} ${area.localId.length() == 0 ? '': 'areaid_' + area.localId} "
+  >
+  <head>
+    <title m:inject="m:doRender" m:name="_TITLE">!{page.title}</title>
+
+    <inject m:inject="m:doRender" m:name="_HEAD_META">
+
+block _HEAD_META
+
+.
+    </inject>
+
+    <inject m:inject="m:doRender" m:name="_HEAD_CSS">
+
+block _HEAD_CSS
+
+.
+    </inject>
+
+    <inject m:inject="m:doRender" m:name="_HEAD_SCRIPT">
+
+block _HEAD_SCRIPT
+
+.
+    </inject>
+  </head>
+  <body>
+    <main class="mx-auto max-w-pc-full">
+      <inject m:inject="m:doRender" m:name="_APP_MAIN">
+
+block _APP_MAIN
+
+.
+      </inject>
+    </main>
+    <inject m:inject="m:doRender" m:name="_BODY_SCRIPT">
+
+block _BODY_SCRIPT
+
+.
+    </inject>
+  </body>
+  </html>

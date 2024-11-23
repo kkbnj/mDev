@@ -10,7 +10,7 @@ const PORT = 3000,
   SERVER_NAME = "past.jp",
 
   PUBLIC_DIR = "public",
-  INDEX_DIR = "",
+  INDEX_DIR = "s/brand/brand_name/feature/2024/collection/page_name",
   ASSETS_DIR = path.join(INDEX_DIR, "assets"),
   CSS_DIR = path.join(ASSETS_DIR, "css"),
   JS_DIR = path.join(ASSETS_DIR, "js"),

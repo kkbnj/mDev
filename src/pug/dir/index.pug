@@ -6,19 +6,36 @@ block data
       canonical: CANONICAL_ROOT,
       page_type: 'article',
       og_image: 'ogp.png',
-      title: 'ページタイトル',
+      title: 'ページタイトル｜ブランド名｜ユナイテッドアローズ公式通販 – UNITED ARROWS ONLINE',
       description: 'ページディスクリプション',
       // keywords: 'ページキーワード',
     }
 
-block css
+    let test = true
+
+block _HEAD_META
+    meta(property='og:type' content!=page.page_type)
+    meta(property='og:description' content!=page.description)
+    meta(property='og:title' content!=page.title)
+    meta(property='og:image' content!=HOST_NAME + IMAGE_DIR + page.og_image)
+    meta(property='og:url' content!=page.canonical)
+    meta(name='twitter:card' content='summary_large_image')
+
+    meta(name='description' content!=page.description)
+    if page.keywords
+      meta(name='keywords' content!=page.keywords)
+    title!=page.title
+
+    link(rel='canonical' href!=page.canonical)
+
+block _HEAD_CSS
   link(href=CSS_DIR + 'index.css' rel='stylesheet' type='text/css')
 
-block script
+block _HEAD_SCRIPT
+  //- headの最後に読み込まれる
+
+block _APP_MAIN
+  //- コンテンツ
+
+block _BODY_SCRIPT
   script(src=JS_DIR + 'index.js' type='text/javascript' charset='UTF-8')
-
-block content
-  section
-    |content
-
-block modal
